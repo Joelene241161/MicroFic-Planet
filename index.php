@@ -26,7 +26,8 @@
    <?php include "components/navbar.php";
     ?>
 
-    <div class="row-lg bodyMargin">
+ <section>
+    <div class="d-flex flex-row-lg bodyMargin">
 
     <!-- Not logged in/guest
         <div class="col-3 CTACard">
@@ -42,15 +43,36 @@
 
     <!-- logged in -->
         <?php include "components/sidebar.php";
-    ?>
+?>
     
         </div>  <!-- left side -->
 
 
-        <div class="col-8">
+        <div class="col-8 MarginLeft">
+           <div class="dropdown mediumTop">
+        <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Story Genre
+        </a>
 
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Adventure</a></li>
+            <li><a class="dropdown-item" href="#">Dystopian</a></li>
+            <li><a class="dropdown-item" href="#">Fantasy</a></li>
+            <li><a class="dropdown-item" href="#">History</a></li>
+            <li><a class="dropdown-item" href="#">Horror</a></li>
+            <li><a class="dropdown-item" href="#">Mystery</a></li>
+            <li><a class="dropdown-item" href="#">Poetry</a></li>
+            <li><a class="dropdown-item" href="#">Romance</a></li>
+            <li><a class="dropdown-item" href="#">Sci-fi</a></li>
+            <li><a class="dropdown-item" href="#">Thriller</a></li>
+        </ul>
+    </div>
+        <?php include "components/StoryCard.php";
+?>
         </div>  <!-- right side -->
     </div>  <!-- entire row -->
+
+ </section>
    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>

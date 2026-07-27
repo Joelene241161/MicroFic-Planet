@@ -175,3 +175,21 @@
 .BackgroundBody{
     background-image: linear-gradient(to left, #1f2226 , #0a0a0a);
 }
+
+/* Story card */
+.cardBackground{
+    background-image: linear-gradient(to left, #A5CAFF , #ffffff);
+    padding: 2%;
+    border-radius: 30px;
+}
+
+.ImageContainerSmall{
+  width: 25px;
+  height: 25px;
+}
+
+.genreLabel{
+    border-color: #00204F;
+    border-radius: 70px;
+    background-color: #FFF;
+}
