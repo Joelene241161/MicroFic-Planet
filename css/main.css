@@ -1,0 +1,112 @@
+/* typography */
+.lato-thin {
+  font-family: "Lato", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.lato-light {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.lato-regular {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.lato-bold {
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.lato-black {
+  font-family: "Lato", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.DefaultBlueText{
+    color: #0D6EFD;
+}
+
+.DarkBlueText{
+    color:#00204F;
+}
+
+/* Spacing */
+.smallMarginTop{
+    margin-top: 0.5%;
+}
+
+.smallMarginRight{
+    margin-right: 2%;
+}
+
+.tinyMarginRight{
+    margin-right: 0.3%;
+}
+
+/* Buttons */
+.secondary-Button{
+    color: #00204F;
+    background-color: #F8F9FA;
+    border: none;
+    box-shadow: 5px 5px 5px #0D6EFD;
+    padding: 10px 40px;
+    border-radius: 7px;
+}
+
+.secondary-Button:hover{
+    background-image: linear-gradient(to right, #F8F9FA , #A5CAFF);
+}
+
+.primary-Button{
+    color: #FFF;
+    background-color: #0D6EFD;
+    border: none;
+    box-shadow: 5px 5px 5px #0D6EFD;
+    padding: 10px 40px;
+    border-radius: 7px;
+}
+
+.primary-Button:hover{
+    background-image: linear-gradient(to right, #0D6EFD , #A5CAFF);
+}
+
+/* Navbar */
+.ItemsRight{
+    justify-content: end;
+}
+
+.Logo{
+    width: 160px;
+}
+
+.Logo:hover{
+     background-image: linear-gradient(to right, #0d6dfd22 , #a5caff51);
+}
+
+.NavBackground{
+    background-image: linear-gradient(to left, #F8F9FA , #A5CAFF);
+}
+
+.iconStyle{
+    width: 30px;
+    height: 30px;
+}
+
+.ImageContainer{
+  width: 40px;
+  height: 40px;
+}
+
+.profileImg{
+    width: 100%;
+  height: 100%;
+  object-fit: cover;
+    clip-path: circle(50%);
+}
