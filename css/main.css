@@ -37,9 +37,45 @@
     color:#00204F;
 }
 
+.LightBlueText{
+    color:#A5CAFF;
+}
+
+.WhiteTextBig{
+    color:#FFF;
+    line-height: 30px;
+}
+
+.WhiteTextLink{
+    color:#FFF;
+    line-height: 30px;
+    text-decoration: underline;
+}
+
 /* Spacing */
+.bodyMargin{
+    margin-left: 3%;
+    margin-top: 2%;
+}
+
+.MarginLeft{
+ margin-left: 2%;
+}
+
 .smallMarginTop{
     margin-top: 0.5%;
+}
+
+.mediumTop{
+    margin-top: 3%;
+}
+
+.marginTop{
+    margin-top: 5%;
+}
+
+.marginRight{
+    margin-right: 5%;
 }
 
 .smallMarginRight{
@@ -48,6 +84,10 @@
 
 .tinyMarginRight{
     margin-right: 0.3%;
+}
+
+.marginBottomBig{
+    margin-bottom: 6%;
 }
 
 /* Buttons */
@@ -109,4 +149,29 @@
   height: 100%;
   object-fit: cover;
     clip-path: circle(50%);
+}
+
+/* Homepage */
+.CTACard{
+    background-image: url(../Assets/background.png);
+    background-size: cover;
+    padding: 2%;
+    border-radius: 30px;
+    box-shadow: 5px 5px 5px #0D6EFD;
+    min-width: 200px;
+}
+
+.CTATextCard{
+    background-color: #a5caffbb;
+    padding: 5%;
+    border-radius: 30px;
+}
+
+.CenterAlign{
+    display: flex;
+    align-content: center;
+}
+
+.BackgroundBody{
+    background-image: linear-gradient(to left, #1f2226 , #0a0a0a);
 }
