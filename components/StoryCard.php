@@ -23,7 +23,7 @@
 
 <body class="BackgroundBody">
 
-    <div class="cardBackground mediumTop">
+    <article class="cardBackground mediumTop">
             <div class="d-flex row-3">
                  <div class="ImageContainerSmall tinyMarginRight">
                  <img src="Assets/profile.jpg" class="profileImg">
@@ -31,7 +31,7 @@
                 <p class="lato-regular DarkBlueText">Username</p>
             </div>
 
-        <h3 class="lato-regular DarkBlueText">Story Name</h3>
+        <h4 class="lato-bold DarkBlueText">Story Name</h4>
 
         <div class="d-flex row-3">
                 <button class="genreLabel lato-regular tinyMarginRight"> Genre </button>
@@ -41,7 +41,29 @@
 
         <p class="lato-regular smallMarginTop"> Story text. Should we talk about the rainy season and storm Desmond? Building on floodplains should not be allowed. Wear insect repellent and never work alone. Before you start your systematic sampling, ask permission if needed.</p>
 
-    </div>
+        <div class="d-flex row">
+            <div class="col-9">
+            <button class="d-flex row-2 tertiaryButton">   
+                <img src="Assets/Icons/LikeEmpty.png" class="marginRight IconSize">
+                <p class="mediumTop lato-bold">12</p>
+            </button>
+            </div>
+            <div class="d-flex col-lg ">
+            <button class="d-flex row-2 tertiaryButton marginRight">   
+                <img src="Assets/Icons/SaveEmpty.png" class="marginRight IconSize">
+                <p class="mediumTop lato-bold textWidth">Save</p>
+            </button>
+            <div>
+                <div class="col">
+            <button class="d-flex row-2 tertiaryButton">   
+                <img src="Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
+                <p class="mediumTop lato-bold textWidth">Gift</p>
+            </button>
+            <div>
+        </div>
+
+</article>   <!-- end of card -->
+  
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <script src="./script.js"></script>
