@@ -23,26 +23,15 @@
 
 <body class="BackgroundBody">
 
-        <!-- Not logged in/guest -->
-
-        <div class="col-3 CTACardHome">
-            <h1 class="LightBlueText lato-bold">Join our crew of micro fiction writers</h1>
-            <div class="CTATextCard marginTop">
-                <h5 class="lato-regular WhiteTextBig">Our stories are as short as possible, ranging from 6 to 300 words long. Let the simplicity feed your creativity and open you and your reader’s minds to imagination and diverse interpretations. </h5>
-            </div>
-        <div class="d-flex col-11 ItemsRight marginTop">
-            <a href="./Pages/logIn.php" class="d-flex col-6">
-        <button type="button" class="secondary-Button marginRight">Log In</button>
-        </a>
-        <a href="./Pages/signUp.php">
-        <button type="button" class="primary-Button">Sign up</button>
-        </a>
-      </div>
-
-            </div>  <!-- closing div -->
-   
+    <footer class="marginTop d-flex">
+        <a class="navbar-brand MarginLeft col-3" href="../Pages/discover.php"><img src="../Assets/Logo.svg" class="Logo"></a>
+        <h5 class="DarkBlueTextLink smallMarginTop col-3">Contact customer support</h5>
+        <h5 class="DarkBlueTextLink smallMarginTop col-2 ">Privacy notice</h5>
+        <h5 class="DarkBlueTextLink smallMarginTop col-2">Terms of service</h5>
+        <h5 class="DarkBlueTextLink smallMarginTop">About us</h5>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-    <script src="./script.js"></script>
+    <script src="./js/script.js"></script>
 </body>
 </html>

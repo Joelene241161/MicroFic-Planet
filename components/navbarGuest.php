@@ -17,32 +17,34 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="../css/main.css">
 
 </head>   
 
 <body class="BackgroundBody">
 
-        <!-- Not logged in/guest -->
+    <nav class="navbar navbar-expand-lg NavBackground">
+  <div class="container-fluid">
+    <a class="navbar-brand MarginLeft" href="../index.php"><img src="../Assets/Logo.svg" class="Logo"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-        <div class="col-3 CTACardHome">
-            <h1 class="LightBlueText lato-bold">Join our crew of micro fiction writers</h1>
-            <div class="CTATextCard marginTop">
-                <h5 class="lato-regular WhiteTextBig">Our stories are as short as possible, ranging from 6 to 300 words long. Let the simplicity feed your creativity and open you and your reader’s minds to imagination and diverse interpretations. </h5>
-            </div>
-        <div class="d-flex col-11 ItemsRight marginTop">
-            <a href="./Pages/logIn.php" class="d-flex col-6">
-        <button type="button" class="secondary-Button marginRight">Log In</button>
+    <!-- Not logged In  -->
+      <div class="d-flex col-11 ItemsRight" id="notLoggedIn">
+        <a href="../Pages/logIn.php" class="d-flex col-10 ItemsRight">
+        <button type="button" class="secondary-Button smallMarginRight">Log In</button>
         </a>
-        <a href="./Pages/signUp.php">
+        <a href="../Pages/signUp.php">
         <button type="button" class="primary-Button">Sign up</button>
         </a>
       </div>
-
-            </div>  <!-- closing div -->
+  </div>
+</nav>
    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-    <script src="./script.js"></script>
+    <script src="./js/script.js"></script>
 </body>
 </html>

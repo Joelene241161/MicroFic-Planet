@@ -71,6 +71,10 @@
  margin-left: 2%;
 }
 
+.MarginLeftBig{
+ margin-left: 5%;
+}
+
 .smallMarginTop{
     margin-top: 0.5%;
 }
@@ -116,6 +120,10 @@
 .secondary-Button:hover{
     background-image: linear-gradient(to right, #F8F9FA , #A5CAFF);
     box-shadow: 5px 5px 5px #88b2ee inset;
+}
+
+.secondary-Button:checked{
+    background-color: #A5CAFF;
 }
 
 .primary-Button{
@@ -191,6 +199,15 @@
     min-width: 200px;
 }
 
+.CTACardHome{
+    background-image: url(../Assets/background.png);
+    background-size: cover;
+    padding: 2%;
+    border-radius: 30px;
+    box-shadow: 5px 5px 5px #0D6EFD;
+    min-width: 340px;
+}
+
 .CTATextCard{
     background-color: #a5caffbb;
     padding: 5%;
@@ -256,4 +273,40 @@ Reference: https://stackoverflow.com/a/77796790 */
   font-family: "Lato", sans-serif;
   font-weight: 700;
   font-style: normal;
+}
+
+/* sign up */
+.backgroundImage{
+    background-image: url(../Assets/background.png);
+    background-size: cover;
+}
+
+.backTransparent{
+    background-color: #a5caffd0;
+    padding: 3%;
+    margin:auto;
+    width:fit-content;
+    border-radius: 30px;
+    margin-top: 3%;
+    padding-bottom: 1%;
+}
+
+.TextCenter{
+    text-align: center;
+}
+
+input{
+    border-color: #0D6EFD;
+    border-radius: 30px;
+    padding: 1%;
+    padding-left: 3%;
+    width: 60%;
+}
+
+input:hover{
+    box-shadow: 5px 5px 5px #0D6EFD;
+}
+
+.formSignUp{
+    margin-left: 30%;
 }

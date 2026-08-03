@@ -23,22 +23,19 @@
 
 <body class="BackgroundBody">
 
-   <?php include "components/navbar.php";
+   <?php include "components/navbarHome.php";
     ?>
 
- <section>
-    <div class="d-flex flex-row-lg bodyMargin">
+ <section class="d-flex">
+    <div class="bodyMargin">
 
-    <!-- Not logged in/guest -->
-        <?php //include "components/sidebarGuest.php";?>
-
-    <!-- logged in -->
-         <?php include "components/sidebar.php";?>
+    <!-- Not logged in -->
+         <?php include "components/sidebarGuest.php";?>
     
         </div>  <!-- left side -->
 
 
-        <div class="col-8 MarginLeft">
+        <div class="col-8 mediumTop marginRight">
   
         <?php include "components/selectGenre.php";?>
     

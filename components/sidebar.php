@@ -29,20 +29,20 @@
 
             <div class="CTATextCard marginTop">
             <div class="d-flex col-11 marginTop">
-                 <img src="Assets/Icons/Profile.png" class="iconStyle smallMarginRight">
+                 <img src="../Assets/Icons/Profile.png" class="iconStyle smallMarginRight">
                 <h4 class="WhiteTextBig lato-bold">Followed Accounts</h4>
             </div>  <!-- menu content -->
 
             <div class="d-flex col-11 marginTop">
                  <div class="ImageContainer marginRight">
-                 <img src="Assets/profile.jpg" class="profileImg">
+                 <img src="../Assets/profile.jpg" class="profileImg">
                  </div>
                 <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
             </div>  <!-- One profile -->
 
             <div class="d-flex col-11 marginTop">
                  <div class="ImageContainer marginRight">
-                 <img src="Assets/profile.jpg" class="profileImg">
+                 <img src="../Assets/profile.jpg" class="profileImg">
                  </div>
                 <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
             </div>  <!-- One profile -->
@@ -53,13 +53,13 @@
 
             <div class="CTATextCard marginTop">
             <div class="d-flex col-11 marginTop">
-                 <img src="Assets/Icons/Profile.png" class="iconStyle smallMarginRight">
+                 <img src="../Assets/Icons/Profile.png" class="iconStyle smallMarginRight">
                  <h4 class="WhiteTextBig lato-bold">Saved Stories</h4>
             </div>  <!-- menu content -->
 
              <div class="d-flex col-11 marginTop">
                  <div class="ImageContainer marginRight">
-                 <img src="Assets/profile.jpg" class="profileImg">
+                 <img src="../Assets/profile.jpg" class="profileImg">
                  </div>
                 <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">Story Name</h5>
                 <h6 class="DarkBlueText lato-regular mediumTop">Username</h6>
@@ -67,7 +67,7 @@
 
             <div class="d-flex col-11 marginTop">
                  <div class="ImageContainer marginRight">
-                 <img src="Assets/profile.jpg" class="profileImg">
+                 <img src="../Assets/profile.jpg" class="profileImg">
                  </div>
                 <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">Story name</h5>
                 <h6 class="DarkBlueText lato-regular mediumTop">Username</h6>

@@ -1,14 +1,14 @@
-var LoggedIn = false;
-var guest = document.getElementById("notLoggedIn");
-var user = document.getElementById("LoggedIn");
+// var LoggedIn = false;
+// var guest = document.getElementById("notLoggedIn");
+// var user = document.getElementById("LoggedIn");
 
-if (LoggedIn == false) {
-    guest.style.display = "block";
-} else {
-    user.style.display = "block";
-}
+// if (LoggedIn == false) {
+//     guest.style.display = "block";
+// } else {
+//     user.style.display = "block";
+// }
 
-console.log(LoggedIn);
+// console.log(LoggedIn);
 
 //Stops the form from reloading on submit
 // Reference: https://dev.to/dangote/how-to-stop-page-reloads-in-javascript-with-eventpreventdefault-39l5

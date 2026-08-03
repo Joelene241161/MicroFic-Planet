@@ -25,7 +25,7 @@
 
     <form class="d-flex row-3 lato-regular" id="noReloadForm">
         <select class="form-select secondary-Button col smallMarginRight" style="height:45px">
-            <option selected>All genres</option>
+            <option selected>Genre (all)</option>
             <option value="Adventure">Adventure</option>
             <option value="Dystopian">Dystopian</option>
             <option value="Fantasy">Fantasy</option>

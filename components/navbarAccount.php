@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width-device-width, initial-scale-1.0">
+
+    <meta name="author" content="Joelene du Toit 241161">
+    <meta name="keywords" content="Social platform where users can post stories, specifically microfiction or flashfiction">
+    <title>
+        MicroFic Planet
+    </title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/main.css">
+
+</head>   
+
+<body class="BackgroundBody">
+
+    <nav class="navbar navbar-expand-lg NavBackground">
+  <div class="container-fluid">
+    <a class="navbar-brand MarginLeft" href="../Pages/discover.php"><img src="../Assets/Logo.svg" class="Logo"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <!-- Logged In -->
+      <div class="d-flex col-11 ItemsRight" id="LoggedIn">
+
+      <div class="d-flex smallMarginRight" data-tooltip="Star Tokens are currency, spend them to create a story or gift them to show appreciation. Gain tokens by liking and saving stories.">
+        <img src="../Assets/Icons/Sparkles.png" class="iconStyle tinyMarginRight">
+        <h4 class="lato-regular DefaultBlueText">14</h4>
+      </div>
+
+        
+        <div class="ImageContainer tinyMarginRight">
+        <img src="../Assets/profile.jpg" class="profileImg">
+        </div>
+        <p class="lato-regular DarkBlueText smallMarginTop">Username</p>
+      </div>
+
+    </div>
+  </div>
+</nav>
+   
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script src="./js/script.js"></script>
+</body>
+</html>
