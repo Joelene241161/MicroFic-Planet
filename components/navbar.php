@@ -27,22 +27,26 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-    <!-- Not logged In -->
+    <!-- Not logged In 
       <div class="d-flex col-11 ItemsRight" id="notLoggedIn">
         <button type="button" class="secondary-Button smallMarginRight">Log In</button>
         <button type="button" class="primary-Button">Sign up</button>
+      </div> -->
+
+    <!-- Logged In -->
+      <div class="d-flex col-11 ItemsRight" id="LoggedIn">
+
+      <div class="d-flex smallMarginRight" data-tooltip="Star Tokens are currency, spend them to create a story or gift them to show appreciation. Gain tokens by liking and saving stories.">
+        <img src="Assets/Icons/Sparkles.png" class="iconStyle tinyMarginRight">
+        <h4 class="lato-regular DefaultBlueText">14</h4>
       </div>
 
-    <!-- Logged In
-      <div class="d-flex col-11 ItemsRight" id="LoggedIn">
-        <img src="Assets/Icons/Sparkles.png" class="iconStyle tinyMarginRight">
-        <h4 class="lato-regular DefaultBlueText smallMarginRight">14</h4>
-
+        
         <div class="ImageContainer tinyMarginRight">
         <img src="Assets/profile.jpg" class="profileImg">
         </div>
         <p class="lato-regular DarkBlueText smallMarginTop">Username</p>
-      </div> -->
+      </div>
 
     </div>
   </div>

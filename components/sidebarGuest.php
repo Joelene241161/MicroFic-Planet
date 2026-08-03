@@ -23,40 +23,20 @@
 
 <body class="BackgroundBody">
 
-   <?php include "components/navbar.php";
-    ?>
-
- <section>
-    <div class="d-flex flex-row-lg bodyMargin">
-
-    <!-- Not logged in/guest -->
-        <?php //include "components/sidebarGuest.php";?>
-
-    <!-- logged in -->
-         <?php include "components/sidebar.php";?>
-    
-        </div>  <!-- left side -->
-
-
-        <div class="col-8 MarginLeft">
-  
-        <?php include "components/selectGenre.php";?>
-    
-        <div class="CardGroup">
-        <?php include "components/StoryCard.php";?>
-
-        <?php include "components/StoryCard.php";?>
-        <div>
-
-        </div>  <!-- right side -->
-    </div>  <!-- entire row -->
-
- </section>
-
-    <?php include "components/footer.php";?>
+        <!-- Not logged in/guest -->
+        <div class="col-3 CTACard">
+            <h1 class="LightBlueText lato-bold">Join our crew of micro fiction writers</h1>
+            <div class="CTATextCard marginTop">
+                <h5 class="lato-regular WhiteTextBig">Our stories are as short as possible, ranging from 6 to 300 words long. Let the simplicity feed your creativity and open you and your reader’s minds to imagination and diverse interpretations. </h5>
+            </div>
+            <div class="d-flex col-11 ItemsRight marginTop">
+        <button type="button" class="secondary-Button marginRight">Log In</button>
+        <button type="button" class="primary-Button">Sign up</button>
+      </div>
+        </div>
    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-    <script src="./js/script.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>

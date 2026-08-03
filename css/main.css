@@ -43,7 +43,7 @@
 }
 
 .DarkBlueTextLink:hover{
-    text-shadow: 2.5px 2.5px 5px #86b6f8;
+    text-shadow: 2.5px 2.5px 5px #92befc;
 }
 
 .LightBlueText{
@@ -157,7 +157,7 @@
 }
 
 .Logo:hover{
-     background-image: linear-gradient(to right, #0d6dfd22 , #a5caff51);
+     background-image: radial-gradient(#9ec6ff , #A5CAFF);
 }
 
 .NavBackground{
@@ -239,4 +239,21 @@ footer{
     background-color: #A5CAFF;
     padding-top: 2%;
     padding-bottom: 2%;
+}
+
+/* Tooltips
+Reference: https://stackoverflow.com/a/77796790 */
+
+[data-tooltip]:hover::after {
+  display: inline;
+  position: absolute;
+  content: attr(data-tooltip);
+  background-image: linear-gradient(to bottom, #a5caffc3 , #ffffff);
+  margin: 2%;
+  padding: 1%;
+  border-radius: 30px;
+  color: #00204F;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
