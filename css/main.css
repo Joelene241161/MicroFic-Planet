@@ -79,6 +79,10 @@
     margin-top: 0.5%;
 }
 
+.marginTop1{
+    margin-top: 1%;
+}
+
 .mediumTop{
     margin-top: 3%;
 }
@@ -140,6 +144,7 @@
     box-shadow: 5px 5px 5px #0952c0 inset;
 }
 
+/* for story card */
 .tertiaryButton{
     color: #00204F;
     background-color: #A5CAFF;
@@ -153,6 +158,22 @@
 
 .tertiaryButton:hover{
     box-shadow: 5px 5px 5px #78a6e7 inset;
+}
+
+/* for genre tags on create story */
+.outlinedButton{
+    color: #0D6EFD;
+    background-color: #ffffff;
+    border-color: #0D6EFD;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-radius: 70px;
+}
+
+.outlinedButton:hover{
+    box-shadow: 5px 5px 5px #b2ccf0 inset;
 }
 
 /* Navbar */
@@ -221,6 +242,11 @@
 
 .BackgroundBody{
     background-image: linear-gradient(to left, #1f2226 , #0a0a0a);
+}
+
+.sidebarScroll{
+    height: 16vh;
+    overflow: auto;
 }
 
 /* Story card */
@@ -309,4 +335,27 @@ input:hover{
 
 .formSignUp{
     margin-left: 30%;
+}
+
+/* create story page */
+.formCreateStory{
+    margin-left: 14%;
+}
+
+.backCreateStory{
+    background-color: #a5caffd0;
+    padding: 3%;
+    margin:auto;
+    width:50%;
+    border-radius: 30px;
+    margin-top: 3%;
+    padding-bottom: 1%;
+    margin-bottom: 5%;
+}
+
+textarea{
+    width: 80%;
+    height: 30vh;
+    border-radius: 10px;
+    box-shadow: 1px 1px #0D6EFD inset;
 }
