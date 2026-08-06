@@ -75,6 +75,10 @@
  margin-left: 5%;
 }
 
+.BigMarginLeft{
+    margin-left: 70%;
+}
+
 .smallMarginTop{
     margin-top: 0.5%;
 }
@@ -359,3 +363,5 @@ textarea{
     border-radius: 10px;
     box-shadow: 1px 1px #0D6EFD inset;
 }
+
+/* account page */

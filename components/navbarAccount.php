@@ -41,9 +41,11 @@
 
         
         <div class="ImageContainer tinyMarginRight">
+          <a href="../Pages/profile.php">
         <img src="../Assets/profile.jpg" class="profileImg">
         </div>
-        <p class="lato-regular DarkBlueText smallMarginTop">Username</p>
+        <p class="lato-regular DarkBlueText marginTop">Username</p>
+      </a>
       </div>
 
     </div>

@@ -35,7 +35,7 @@
         <br>
         
         <label for="email" class="smallMarginTop WhiteTextBig lato-regular">Body text:</label><br>
-        <textarea name="body" class="lato-regular marginTop1">
+        <textarea name="body" class="lato-regular marginTop1" maxlength="800">
         </textarea><br>
 
         <label for="tags" class="smallMarginTop WhiteTextBig lato-regular">Add genre tags:</label><br>
@@ -76,7 +76,7 @@
 <!-- END genre select buttons -->
 
     <div>
-        <input type="submit" class="primary-Button mediumTop lato-bold" value="Post story ( -40 Tokens )" name="Submit" onclick="alert('Your story has been posted and is pending approval. Check back in 1 to 3 days')">
+        <input type="submit" class="primary-Button mediumTop lato-bold" value="Post story ( -40 Tokens )" name="Submit" data-bs-toggle="modal" data-bs-target="#postModal">
     </div>
 
         </form>
@@ -86,6 +86,29 @@
     </div>
 
     <?php include "../components/footerAccount.php";?>
+
+    <!-- Modal -->
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 lato-bold" id="exampleModalLabel">Your story has been posted and is pending approval.</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h5 class="lato-regular">Check back in 1 to 3 days</h5>
+        <p class="lato-regular">Read our terms of service to get insight on our approval process.</p>
+            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+        <a href="../Pages/discover.php">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Go back home</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>

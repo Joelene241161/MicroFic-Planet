@@ -30,14 +30,15 @@
         <h4 class="lato-regular TextCenter WhiteTextBig">Enter your details to gain access to your account.</h4>
 
         <form class="formSignUp" method="post">
-        <label for="pwd" class="mediumTop WhiteTextBig lato-regular">Password:</label><br>
-        <input type="password" id="pwd" name="pwd">
-        <br>
         
-        <label for="email" class="smallMarginTop WhiteTextBig lato-regular">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
+        <label for="email" class="mediumTop WhiteTextBig lato-regular">Email:</label><br>
+        <input type="email" id="email" name="email" placeholder="Email address" required><br>
 
-        <input type="submit" class="primary-Button mediumTop lato-bold" value="Create Account" name="Submit">
+        <label for="pwd" class="smallMarginTop WhiteTextBig lato-regular">Password:</label><br>
+        <input type="password" id="pwd" name="pwd" required>
+        <br>
+
+        <input type="submit" class="primary-Button mediumTop lato-bold" value="Log In" name="Submit">
         </form>
          <?php
     

@@ -30,21 +30,24 @@
         <h4 class="lato-regular TextCenter WhiteTextBig">Create an account to gain access to all of our amazing features.</h4>
 
         <form class="formSignUp" method="post">
-        <label for="pwd" class="mediumTop WhiteTextBig lato-regular">Password:</label><br>
-        <input type="password" id="pwd" name="pwd">
-        <br>
         
-        <label for="email" class="smallMarginTop WhiteTextBig lato-regular">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
+        <label for="email" class="mediumTop WhiteTextBig lato-regular">Email:</label><br>
+        <input type="email" id="email" name="email" placeholder="Email address" required><br>
+
+        <label for="pwd" class="smallMarginTop WhiteTextBig lato-regular">Password:</label><br>
+        <input type="password" id="pwd" name="pwd" required>
+        <br>
 
         <label for="uname" class="smallMarginTop WhiteTextBig lato-regular">Username:</label><br>
-        <input type="text" id="uname"><br>
+        <input type="text" id="uname" placeholder="Username" required><br>
+
+        <label for="options" class="smallMarginTop WhiteTextBig lato-regular">Choose a role:</label><br>
 
         <input type="radio" class="btn-check" name="options" id="reader" autocomplete="off" checked>
-            <label class="secondary-Button btn mediumTop" for="reader" data-tooltip="Can read stories, but can't post them.">Reader</label>
+            <label class="secondary-Button btn" for="reader" data-tooltip="Can read stories, but can't post them.">Reader</label>
 
             <input type="radio" class="btn-check" name="options" id="writer" autocomplete="off">
-            <label class="secondary-Button btn mediumTop" for="writer" data-tooltip="Writers can post and read stories.">Writer</label>
+            <label class="secondary-Button btn" for="writer" data-tooltip="Writers can post and read stories.">Writer</label>
             <br>
 
         <input type="submit" class="primary-Button mediumTop lato-bold" value="Create Account" name="Submit">
@@ -56,7 +59,7 @@
                 exit; 
             }
             ?>
-        <a href="../Pages/logIn.php"><p class="lato-regular WhiteTextLink TextCenter mediumTop">I already have an account</p></a>
+        <a href="../Pages/logIn.php"><p class="lato-regular WhiteTextLink TextCenter marginTop1">I already have an account</p></a>
 
     </div>
    

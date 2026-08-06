@@ -43,9 +43,9 @@
         <?php include "../components/selectGenre.php";?>
     
         <div class="CardGroup">
-        <?php include "../components/StoryCard.php";?>
+        <?php include "../components/StoryCardAccount.php";?>
 
-        <?php include "../components/StoryCard.php";?>
+        <?php include "../components/StoryCardAccount.php";?>
         <div>
 
         </div>  <!-- right side -->

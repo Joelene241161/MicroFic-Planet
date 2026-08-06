@@ -24,12 +24,19 @@
 <body class="BackgroundBody">
 
     <article class="cardBackground mediumTop">
-            <div class="d-flex row-3">
-                 <div class="ImageContainerSmall tinyMarginRight">
-                 <img src="Assets/profile.jpg" class="profileImg">
-                 </div>
+        <div class="d-flex row-3">
+                <div class="ImageContainerSmall tinyMarginRight">
+                <img src="../Assets/profile.jpg" class="profileImg">
+                </div>
                 <p class="lato-regular DarkBlueText">Username</p>
-            </div>
+                
+    <!-- Only writers have this button on their profile page -->
+            <!-- <div class="BigMarginLeft" data-tooltip="You can only edit a story once.">
+                <button class="d-flex row-2 secondary-Button lato-bold">   
+                <img src="../Assets/Icons/edit.png" class="marginRight IconSize">Edit
+            </button>
+            </div> -->
+        </div>
 
         <h4 class="lato-bold DarkBlueText">Story Name</h4>
 
@@ -44,19 +51,19 @@
         <div class="d-flex row">
             <div class="col-9">
             <button class="d-flex row-2 tertiaryButton">   
-                <img src="Assets/Icons/LikeEmpty.png" class="marginRight IconSize">
+                <img src="../Assets/Icons/LikeEmpty.png" class="marginRight IconSize">
                 <p class="mediumTop lato-bold">12</p>
             </button>
             </div>
             <div class="d-flex col-lg ">
             <button class="d-flex row-2 tertiaryButton marginRight lato-bold">   
-                <img src="Assets/Icons/SaveEmpty.png" class="marginRight IconSize">
+                <img src="../Assets/Icons/SaveEmpty.png" class="marginRight IconSize">
                 <p class="mediumTop lato-bold textWidth">Save</p>
             </button>
             <div>
                 <div class="col">
-            <button class="d-flex row-2 tertiaryButton">   
-                <img src="Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
+            <button class="d-flex row-2 tertiaryButton" data-bs-toggle="modal" data-bs-target="#giftModal">   
+                <img src="../Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
                 <p class="mediumTop lato-bold textWidth">Gift</p>
             </button>
             <div>
@@ -64,6 +71,30 @@
 
 </article>   <!-- end of card -->
   
+<!-- Modal -->
+<div class="modal fade" id="giftModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 lato-bold" id="exampleModalLabel">Gift tokens</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="lato-regular">If you love this story you can gift tokens to the writer to show your appreciation</p>
+        <div data-tooltip="Gift 5 of our tokens to this writer.">
+                <button class="d-flex row-2 secondary-Button lato-bold">   
+                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">5
+            </button>
+            </div>
+            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Send gift</button>
+      </div>
+    </div>
+  </div>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <script src="./script.js"></script>
