@@ -170,7 +170,7 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
+  box-shadow: inset 0 0 2px grey; 
   border-radius: 10px;
 }
  
@@ -386,4 +386,7 @@ textarea{
     box-shadow: 1px 1px #0D6EFD inset;
 }
 
-/* account page */
+/* override */
+.paddingBottom{
+    padding-bottom: 1%;
+}

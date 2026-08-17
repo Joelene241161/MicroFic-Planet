@@ -47,6 +47,46 @@
         header("Location: login.php");
         exit();
     }
+
+    // Count amount of stories written
+    $stmtStories = $conn->prepare("SELECT COUNT(*) AS storyCount FROM story WHERE userID = ?");
+    $stmtStories->bind_param("i", $_SESSION['userID']);
+    $stmtStories->execute();
+    $storyData = $stmtStories->get_result()->fetch_assoc();
+    $storyCount = $storyData['storyCount'];
+
+   // Get selected genre from URL
+$genreFilter = isset($_GET['genre']) ? $_GET['genre'] : '';
+
+$sql = "
+    SELECT s.StoryID, s.title, s.content, s.genre, s.created_at,
+           u.userName, u.profileImg,
+           COUNT(l.likedID) AS likeCount
+    FROM story s
+    JOIN users u ON s.userID = u.userID
+    LEFT JOIN likes l ON s.StoryID = l.storyID
+    WHERE s.userID = ?
+";
+
+    // genre filter
+    if (!empty($genreFilter)) {
+        $sql .= " AND s.genre LIKE ?";
+    }
+
+    $sql .= " GROUP BY s.StoryID";
+
+    $stmt = $conn->prepare($sql);
+
+    if (!empty($genreFilter)) {
+        $likeGenre = "%" . $genreFilter . "%";
+        $stmt->bind_param("is", $_SESSION['userID'], $likeGenre);
+    } else {
+        // if not selected show all by logged in user
+        $stmt->bind_param("i", $_SESSION['userID']);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
     ?>
 
     <section class="marginTop1 MarginLeft">
@@ -58,7 +98,7 @@
                  </div>
                 <h2 class="lato-regular WhiteTextBig smallMarginRight">@<?php echo htmlspecialchars($user['userName']) ?></h2>
                 <p class="LightBlueText lato-regular tinyMarginRight">34 followers</p>
-                <p class="LightBlueText lato-regular">5 Stories</p>
+                <p class="LightBlueText lato-regular"> <?php echo $storyCount; ?> Stories</p>
             </div>
 
     <a href="./account.php" class="d-flex ItemsRight marginRight">
@@ -86,9 +126,100 @@
         <?php include "../components/selectGenre.php";?>
     
         <div class="CardGroup">
-        <?php include "../components/StoryCardAccount.php";?>
+        
+        <?php if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+            ?>
+            
+    <article class="cardBackground mediumTop">
+        <div class="d-flex row-3">
+                <div class="ImageContainerSmall tinyMarginRight">
+                <img src="../uploads/<?php echo htmlspecialchars($row['profileImg']); ?>" class="profileImg">
+                </div>
+                <p class="lato-regular DarkBlueText"><?php echo htmlspecialchars($row['userName']); ?></p>
+        </div>
 
-        <?php include "../components/StoryCardAccount.php";?>
+        <h4 class="lato-bold DarkBlueText"><?php echo htmlspecialchars($row['title']); ?></h4>
+
+        <div class="d-flex row-3">
+                <div class="d-flex row-3">
+    <?php 
+    // separating strings in array
+    $genres = explode(',', $row['genre']); 
+
+    foreach ($genres as $genre) {
+        $genre = trim($genre);
+        echo '<button class="genreLabel lato-regular marginRight">'
+             . htmlspecialchars($genre) .
+             '</button>';
+    }
+    ?>
+</div>
+        </div>
+
+        <p class="lato-regular smallMarginTop"><?php echo nl2br(htmlspecialchars($row['content'])); ?></p>
+
+        <div class="d-flex row">
+            <div class="col-9">
+            
+           <form method="POST" action="../components/like.php">
+    <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
+
+    <?php
+    // Checks if the story has already been liked by the logged in user
+    $stmt = $conn->prepare("SELECT likedID FROM likes WHERE userID = ? AND storyID = ?");
+    $stmt->bind_param("ii", $_SESSION['userID'], $row['StoryID']);
+    $stmt->execute();
+    $liked = $stmt->get_result()->num_rows > 0;
+    ?>
+
+    <input type="submit" class="btn-check" id="like-<?php echo $row['StoryID']; ?>" autocomplete="off">
+    <label 
+        class="d-inline-flex lato-bold paddingBottom <?php echo $liked ? 'outlinedButton' : 'tertiaryButton'; ?>" 
+        for="like-<?php echo $row['StoryID']; ?>">
+        <img src="../Assets/Icons/LikeEmpty.png" class="marginRight IconSize"> <?php echo $row['likeCount']; ?>
+    </label>
+</form>
+
+            </div>
+            <div class="d-flex col-lg ">
+
+            <form method="POST" action="../components/save.php">
+    <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
+
+    <?php
+    // Checks if the story has already been saved by the logged in user
+    $stmt = $conn->prepare("SELECT savedID FROM savedstories WHERE userID = ? AND storyID = ?");
+    $stmt->bind_param("ii", $_SESSION['userID'], $row['StoryID']);
+    $stmt->execute();
+    $saved = $stmt->get_result()->num_rows > 0;
+    ?>
+
+    <input type="submit" class="btn-check" id="save-<?php echo $row['StoryID']; ?>" autocomplete="off">
+    <label 
+        class="d-inline-flex lato-bold paddingBottom <?php echo $saved ? 'outlinedButton' : 'tertiaryButton'; ?>" 
+        for="save-<?php echo $row['StoryID']; ?>">
+        <img src="../Assets/Icons/SaveEmpty.png" class="marginRight IconSize">
+    </label>
+
+</form>
+
+            <div>
+                <div class="col">
+            <button class="d-flex row-3 tertiaryButton MarginLeft" data-bs-toggle="modal" data-bs-target="#giftModal">   
+                <img src="../Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
+                <p class="mediumTop lato-bold textWidth">Gift</p>
+            </button>
+            </div>
+        </div>
+
+</article>   <!-- end of card -->
+<?php
+    }
+} else {
+    echo '<h1 class="lato-bold WhiteTextBig mediumTop">No results match your search, try a different genre.</h1>';
+}
+?>
         <div>
 
         </div>  <!-- right side -->
@@ -97,6 +228,49 @@
  </section>
 
     <?php include "../components/footerAccount.php";?>
+
+    <!-- Modal -->
+<div class="modal fade" id="giftModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 lato-bold" id="exampleModalLabel">Gift tokens</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="lato-regular">If you love this story you can gift tokens to the writer to show your appreciation</p>
+    <form>
+        <input type="radio" class="btn-check" name="options" id="5" autocomplete="off" checked>
+            <label class="secondary-Button btn smallMarginRight" for="5">
+                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">5
+            </label>
+
+            <input type="radio" class="btn-check" name="options" id="10" autocomplete="off">
+            <label class="secondary-Button btn smallMarginRight" for="10">
+                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">10
+            </label>
+
+            <input type="radio" class="btn-check" name="options" id="15" autocomplete="off">
+            <label class="secondary-Button btn smallMarginRight" for="15">
+                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">15
+            </label>
+
+            <input type="radio" class="btn-check" name="options" id="20" autocomplete="off">
+            <label class="secondary-Button btn" for="20">
+                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">20
+            </label>
+            <br>
+
+        <input type="submit" class="primary-Button mediumTop lato-bold" value="Send gift" name="Submit">
+        </form>
+            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
