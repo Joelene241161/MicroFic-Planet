@@ -81,7 +81,7 @@
       </div>
       <div class="modal-body">
         <p class="lato-regular">If you love this story you can gift tokens to the writer to show your appreciation</p>
-        <div data-tooltip="Gift 5 of our tokens to this writer.">
+        <div data-tooltip="Gift 5 of your tokens to this writer.">
                 <button class="d-flex row-2 secondary-Button lato-bold">   
                 <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">5
             </button>

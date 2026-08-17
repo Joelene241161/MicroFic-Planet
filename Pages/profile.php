@@ -46,7 +46,7 @@
     </section>
 
  <section>
-    <div class="d-flex flex-row-lg bodyMargin">
+    <div class="d-flex flex-row-lg bodyMargin flex-wrap">
 
     <!-- Not logged in/guest -->
         <?php //include "components/sidebarGuest.php";?>

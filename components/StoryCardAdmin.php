@@ -26,7 +26,7 @@
     <article class="cardBackground mediumTop">
         <div class="d-flex row-3">
                 <div class="ImageContainerSmall tinyMarginRight">
-                <img src="./Assets/profile.jpg" class="profileImg">
+                <img src="../Assets/profile.jpg" class="profileImg">
                 </div>
                 <p class="lato-regular DarkBlueText">Username</p>
                 
@@ -51,22 +51,13 @@
         <div class="d-flex row">
             <div class="col-9">
             <button class="d-flex row-2 tertiaryButton">   
-                <img src="./Assets/Icons/LikeEmpty.png" class="marginRight IconSize">
+                <img src="../Assets/Icons/LikeEmpty.png" class="marginRight IconSize">
                 <p class="mediumTop lato-bold">12</p>
             </button>
             </div>
             <div class="d-flex col-lg ">
-            <button class="d-flex row-2 tertiaryButton marginRight lato-bold">   
-                <img src="./Assets/Icons/SaveEmpty.png" class="marginRight IconSize">
-                <p class="mediumTop lato-bold textWidth">Save</p>
-            </button>
-            <div>
-                <div class="col">
-            <button class="d-flex row-2 tertiaryButton" data-bs-toggle="modal" data-bs-target="#giftModal">   
-                <img src="./Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
-                <p class="mediumTop lato-bold textWidth">Gift</p>
-            </button>
-            <div>
+            <button type="button" class="btn btn-success smallMarginRight">Approve</button>
+            <button type="button" class="btn btn-danger">Deny</button>
         </div>
 
 </article>   <!-- end of card -->
@@ -83,13 +74,14 @@
         <p class="lato-regular">If you love this story you can gift tokens to the writer to show your appreciation</p>
         <div data-tooltip="Gift 5 of your tokens to this writer.">
                 <button class="d-flex row-2 secondary-Button lato-bold">   
-                <img src="./Assets/Icons/sparkles.png" class="marginRight IconSize">5
+                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">5
             </button>
             </div>
             
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Send gift</button>
       </div>
     </div>
   </div>

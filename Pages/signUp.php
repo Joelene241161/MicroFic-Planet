@@ -41,6 +41,10 @@
         <label for="uname" class="smallMarginTop WhiteTextBig lato-regular">Username:</label><br>
         <input type="text" id="uname" placeholder="Username" required><br>
 
+        <div class="input-group mediumTop">
+        <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+        </div>
+
         <label for="options" class="smallMarginTop WhiteTextBig lato-regular">Choose a role:</label><br>
 
         <input type="radio" class="btn-check" name="options" id="reader" autocomplete="off" checked>

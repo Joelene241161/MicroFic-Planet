@@ -35,7 +35,7 @@
                 <h4 class="WhiteTextBig lato-bold">Followed Accounts</h4>
             </div>  <!-- menu content -->
 
-        <div class="sidebarScroll">
+        <div>
 
             <div class="d-flex col-11 marginTop">
                  <div class="ImageContainer marginRight">
@@ -51,14 +51,7 @@
                 <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
             </div>  <!-- One profile -->
 
-            <div class="d-flex col-11 marginTop">
-                 <div class="ImageContainer marginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
-                 </div>
-                <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
-            </div>  <!-- One profile -->
-
-            <!-- <button type="button" class="secondary-Button marginTop">Show all</button> -->
+            <button type="button" class="secondary-Button marginTop" data-bs-toggle="modal" data-bs-target="#followedModal">Show all</button>
 
     </div>
 
@@ -71,7 +64,7 @@
                  <h4 class="WhiteTextBig lato-bold">Saved Stories</h4>
             </div>  <!-- menu content -->
 
-        <div class="sidebarScroll">
+        <div>
 
              <div class="d-flex col-11 marginTop">
                  <div class="ImageContainer marginRight">
@@ -89,16 +82,82 @@
                 <h6 class="DarkBlueText lato-regular mediumTop">Username</h6>
             </div>  <!-- One profile -->
 
+            <button type="button" class="secondary-Button marginTop" data-bs-toggle="modal" data-bs-target="#savedModal">Show all</button>
+        </div>
+
+            </div>  <!-- menu item bottom -->
+
+            <!-- Modal followed accounts -->
+<div class="modal fade" id="followedModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-theme="dark">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 lato-bold" id="exampleModalLabel">
+                <h4 class="WhiteTextBig lato-bold">Followed Accounts</h4>
+            </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="lato-regular">These are all of the accounts you follow:</p>
+
+         <div class="d-flex col-11 marginTop">
+                 <div class="ImageContainer marginRight">
+                 <img src="../Assets/profile.jpg" class="profileImg">
+                 </div>
+                <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
+            </div>  <!-- One profile -->
+
             <div class="d-flex col-11 marginTop">
                  <div class="ImageContainer marginRight">
                  <img src="../Assets/profile.jpg" class="profileImg">
                  </div>
-                <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">Story name</h5>
-                <h6 class="DarkBlueText lato-regular mediumTop">Username</h6>
+                <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
             </div>  <!-- One profile -->
-        </div>
+            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-            </div>  <!-- menu item bottom -->
+<!-- Modal saved stories -->
+<div class="modal fade" id="savedModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-theme="dark">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 lato-bold" id="exampleModalLabel">
+                <h4 class="WhiteTextBig lato-bold">Saved stories</h4>
+            </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="lato-regular">These are all of the stories that you have saved:</p>
+
+         <div class="d-flex col-11 marginTop">
+                 <div class="ImageContainer marginRight">
+                 <img src="../Assets/profile.jpg" class="profileImg">
+                 </div>
+                <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">Story Name</h5>
+                <h6 class="lato-regular mediumTop">Username</h6>
+            </div>  <!-- One profile -->
+
+            <div class="d-flex col-11 marginTop">
+                 <div class="ImageContainer marginRight">
+                 <img src="../Assets/profile.jpg" class="profileImg">
+                 </div>
+                <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">Story Name</h5>
+                <h6 class="lato-regular mediumTop">Username</h6>
+            </div>  <!-- One profile -->
+            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
    
     
 

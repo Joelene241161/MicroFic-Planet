@@ -26,6 +26,25 @@
    <?php include "../components/navbarAccount.php";
     ?>
 
+    <section class="marginTop1 MarginLeft">
+
+    <div class="d-flex row-3 mediumTop">
+                 <div class="ImageContainer tinyMarginRight">
+                 <img src="../Assets/profile.jpg" class="profileImg">
+                 </div>
+                <h2 class="lato-regular WhiteTextBig smallMarginRight">@Username</h2>
+                <p class="LightBlueText lato-regular tinyMarginRight">34 followers</p>
+                <p class="LightBlueText lato-regular">5 Stories</p>
+            </div>
+
+    <a href="./account.php" class="d-flex ItemsRight marginRight">
+        <button type="button" class="secondary-Button d-flex row-12 buttonHeight lato-bold">
+            <img src="../Assets/Icons/settings.png" class="marginRight IconSize">
+                Account
+        </button>
+    </a>
+    </section>
+
  <section>
     <div class="d-flex flex-row-lg bodyMargin flex-wrap">
 
@@ -43,9 +62,9 @@
         <?php include "../components/selectGenre.php";?>
     
         <div class="CardGroup">
-        <?php include "../components/StoryCardAccount.php";?>
+        <?php include "../components/StoryCardAdmin.php";?>
 
-        <?php include "../components/StoryCardAccount.php";?>
+        <?php include "../components/StoryCardAdmin.php";?>
         <div>
 
         </div>  <!-- right side -->
