@@ -23,22 +23,25 @@
 
 <body class="BackgroundBody">
 
+    <?php
+    require_once './config.php';
+
+    // Fetch all stories
+    $sql = "SELECT * FROM story";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            ?>
     <article class="cardBackground mediumTop">
         <div class="d-flex row-3">
                 <div class="ImageContainerSmall tinyMarginRight">
                 <img src="./Assets/profile.jpg" class="profileImg">
                 </div>
                 <p class="lato-regular DarkBlueText">Username</p>
-                
-    <!-- Only writers have this button on their profile page -->
-            <!-- <div class="BigMarginLeft" data-tooltip="You can only edit a story once.">
-                <button class="d-flex row-2 secondary-Button lato-bold">   
-                <img src="../Assets/Icons/edit.png" class="marginRight IconSize">Edit
-            </button>
-            </div> -->
         </div>
 
-        <h4 class="lato-bold DarkBlueText">Story Name</h4>
+        <h4 class="lato-bold DarkBlueText"><?php echo htmlspecialchars($row['title']); ?></h4>
 
         <div class="d-flex row-3">
                 <button class="genreLabel lato-regular tinyMarginRight"> Genre </button>
@@ -46,7 +49,7 @@
                 <button class="genreLabel lato-regular "> Genre </button>
         </div>
 
-        <p class="lato-regular smallMarginTop"> Story text. Should we talk about the rainy season and storm Desmond? Building on floodplains should not be allowed. Wear insect repellent and never work alone. Before you start your systematic sampling, ask permission if needed.</p>
+        <p class="lato-regular smallMarginTop"><?php echo nl2br(htmlspecialchars($row['content'])); ?></p>
 
         <div class="d-flex row">
             <div class="col-9">
@@ -70,6 +73,12 @@
         </div>
 
 </article>   <!-- end of card -->
+<?php
+    }
+} else {
+    echo "<h1>No stories found.</h1>";
+}
+?>
   
 <!-- Modal -->
 <div class="modal fade" id="giftModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

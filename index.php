@@ -1,3 +1,8 @@
+<!-- <?php
+ini_set('display_errors', 0);
+error_reporting(0);
+?> -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,10 +45,90 @@
         <?php include "components/selectGenre.php";?>
     
         <div class="CardGroup">
-        <?php include "components/StoryCard.php";?>
+        <?php
+    require_once 'config.php';
 
-        <?php include "components/StoryCard.php";?>
-        <div>
+ // selected genre from URL
+$genreFilter = isset($_GET['genre']) ? $_GET['genre'] : '';
+
+$sql = "
+    SELECT s.StoryID, s.title, s.content, s.genre, s.created_at,
+           u.userName, u.profileImg,
+           COUNT(l.likedID) AS likeCount
+    FROM story s
+    JOIN users u ON s.userID = u.userID
+    LEFT JOIN likes l ON s.StoryID = l.storyID
+";
+
+// Add filter if genre is selected
+if (!empty($genreFilter)) {
+    $sql .= " WHERE s.genre LIKE '%" . $conn->real_escape_string($genreFilter) . "%'";
+}
+
+$sql .= " GROUP BY s.StoryID";
+
+$result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+            ?>
+            
+    <article class="cardBackground mediumTop">
+        <div class="d-flex row-3">
+                <div class="ImageContainerSmall tinyMarginRight">
+                <img src="uploads/<?php echo htmlspecialchars($row['profileImg']); ?>" class="profileImg">
+                </div>
+                <p class="lato-regular DarkBlueText"><?php echo htmlspecialchars($row['userName']); ?></p>
+        </div>
+
+        <h4 class="lato-bold DarkBlueText"><?php echo htmlspecialchars($row['title']); ?></h4>
+
+        <div class="d-flex row-3">
+                <div class="d-flex row-3">
+    <?php 
+    // separating strings in array
+    $genres = explode(',', $row['genre']); 
+
+    foreach ($genres as $genre) {
+        $genre = trim($genre);
+        echo '<button class="genreLabel lato-regular marginRight">'
+             . htmlspecialchars($genre) .
+             '</button>';
+    }
+    ?>
+</div>
+        </div>
+
+        <p class="lato-regular smallMarginTop"><?php echo nl2br(htmlspecialchars($row['content'])); ?></p>
+
+        <div class="d-flex row">
+            <div class="col-9">
+            <button class="d-flex row-2 tertiaryButton">   
+                <img src="./Assets/Icons/LikeEmpty.png" class="marginRight IconSize">
+                <p class="mediumTop lato-bold"><?php echo $row['likeCount']; ?></p>
+            </button>
+            </div>
+            <div class="d-flex col-lg ">
+            <button class="d-flex row-2 tertiaryButton marginRight lato-bold">   
+                <img src="./Assets/Icons/SaveEmpty.png" class="marginRight IconSize">
+                <p class="mediumTop lato-bold textWidth">Save</p>
+            </button>
+            <div>
+                <div class="col">
+            <button class="d-flex row-2 tertiaryButton" data-bs-toggle="modal" data-bs-target="#giftModal">   
+                <img src="./Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
+                <p class="mediumTop lato-bold textWidth">Gift</p>
+            </button>
+            </div>
+        </div>
+
+</article>   <!-- end of card -->
+<?php
+    }
+} else {
+    echo '<h1 class="lato-bold WhiteTextBig mediumTop">No results match your search, try a different genre.</h1>';
+}
+?>
 
         </div>  <!-- right side -->
     </div>  <!-- entire row -->
@@ -51,6 +136,25 @@
  </section>
 
     <?php include "components/footer.php";?>
+
+    <!-- Modal -->
+<div class="modal fade" id="giftModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 lato-bold" id="exampleModalLabel">Gift tokens</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="lato-regular">If you love this story, you can make an account to gift tokens to the writer to show your appreciation.</p>
+            
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>

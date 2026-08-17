@@ -23,19 +23,30 @@
 
 <body class="BackgroundBody">
 
-    <form class="d-flex row-3 lato-regular" id="noReloadForm">
-        <select class="form-select secondary-Button col smallMarginRight" style="height:45px">
-            <option selected>Genre (all)</option>
-            <option value="Adventure">Adventure</option>
-            <option value="Dystopian">Dystopian</option>
-            <option value="Fantasy">Fantasy</option>
-            <option value="History">History</option>
-            <option value="Horror">Horror</option>
-            <option value="Mystery">Mystery</option>
-            <option value="History">Poetry</option>
-            <option value="Horror">Romance</option>
-            <option value="Mystery">Sci-fi</option>
-            <option value="Mystery">Thriller</option>
+    <form class="d-flex row-3 lato-regular" method="GET" action="">
+        <select name="genre" class="form-select secondary-Button col smallMarginRight" style="height:45px">
+            <option selected value="" <?php if(empty($genreFilter)) echo "selected"; ?>>Genre</option>
+
+            <option value="adventure" <?php if($genreFilter=="adventure") echo "selected"; ?>>Adventure</option>
+            
+            <option value="dystopian" <?php if($genreFilter=="dystopian") echo "selected"; ?>>Dystopian</option>
+
+            <option value="fantasy" <?php if($genreFilter=="fantasy") echo "selected"; ?>>Fantasy</option>
+
+            <option value="history" <?php if($genreFilter=="history") echo "selected"; ?>>History</option>
+
+            <option value="horror" <?php if($genreFilter=="horror") echo "selected"; ?>>Horror</option>
+
+            <option value="mystery" <?php if($genreFilter=="mystery") echo "selected"; ?>>Mystery</option>
+
+            <option value="poetry" <?php if($genreFilter=="poetry") echo "selected"; ?>>Poetry</option>
+
+            <option value="romance" <?php if($genreFilter=="romance") echo "selected"; ?>>Romance</option>
+            
+            <option value="scifi" <?php if($genreFilter=="scifi") echo "selected"; ?>>Sci-fi</option>
+
+            <option value="thriller" <?php if($genreFilter=="thriller") echo "selected"; ?>>Thriller</option>
+
         </select>
         <button type="submit" class="primary-Button col-2 hugeMarginRight">Filter</button>
     </form>
