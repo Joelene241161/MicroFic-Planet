@@ -61,31 +61,7 @@
         </div>
 
 </article>   <!-- end of card -->
-  
-<!-- Modal -->
-<div class="modal fade" id="giftModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5 lato-bold" id="exampleModalLabel">Gift tokens</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p class="lato-regular">If you love this story you can gift tokens to the writer to show your appreciation</p>
-        <div data-tooltip="Gift 5 of your tokens to this writer.">
-                <button class="d-flex row-2 secondary-Button lato-bold">   
-                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">5
-            </button>
-            </div>
-            
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Send gift</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <script src="./script.js"></script>

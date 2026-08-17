@@ -81,16 +81,34 @@
       </div>
       <div class="modal-body">
         <p class="lato-regular">If you love this story you can gift tokens to the writer to show your appreciation</p>
-        <div data-tooltip="Gift 5 of your tokens to this writer.">
-                <button class="d-flex row-2 secondary-Button lato-bold">   
+    <form>
+        <input type="radio" class="btn-check" name="options" id="5" autocomplete="off" checked>
+            <label class="secondary-Button btn smallMarginRight" for="5">
                 <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">5
-            </button>
-            </div>
+            </label>
+
+            <input type="radio" class="btn-check" name="options" id="10" autocomplete="off">
+            <label class="secondary-Button btn smallMarginRight" for="10">
+                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">10
+            </label>
+
+            <input type="radio" class="btn-check" name="options" id="15" autocomplete="off">
+            <label class="secondary-Button btn smallMarginRight" for="15">
+                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">15
+            </label>
+
+            <input type="radio" class="btn-check" name="options" id="20" autocomplete="off">
+            <label class="secondary-Button btn" for="20">
+                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">20
+            </label>
+            <br>
+
+        <input type="submit" class="primary-Button mediumTop lato-bold" value="Send gift" name="Submit">
+        </form>
             
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Send gift</button>
       </div>
     </div>
   </div>
