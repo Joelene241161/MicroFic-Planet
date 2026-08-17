@@ -25,28 +25,68 @@
 
     <?php include "../components/navbarGuest.php";?>
 
+    <?php
+    require_once '../config.php';
+
+    // If already logged in, go to discover
+    if (isset($_SESSION['userID'])) {
+        header("Location: discover.php");
+        exit();
+    }
+
+    // Handle login form
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $email = trim($_POST['email']);
+        $password = $_POST['passwordHash'];
+        
+        // Look up user by username
+        $stmt = $conn->prepare("SELECT userID, email, passwordHash, profileImg FROM users WHERE userName = ? OR email = ?");
+        $stmt->bind_param("ss", $email, $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($user = $result->fetch_assoc()) {
+            // Verify password
+            if (password_verify($password, $user['passwordHash'])) {
+                // Password matches — log them in
+                $_SESSION['userID'] = $user['userID'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['profileImg'] = $user['profileImg'];
+                header("Location: discover.php");
+                exit();
+            } else {
+                $error = "Invalid username or password";
+            }
+        } else {
+            $error = "Invalid username or password";
+        }
+    }
+    ?>
+
+    <?php if (isset($_SESSION['success'])): ?>
+            <div class="success"><?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></div>
+        <?php endif; ?>
+        
+        <?php if (isset($error)): ?>
+            <div class="error"><?php echo htmlspecialchars($error); ?></div>
+        <?php endif; ?>
+
         <div class="backTransparent">
         <h1 class="lato-bold TextCenter DarkBlueText">Welcome back</h1>
         <h4 class="lato-regular TextCenter WhiteTextBig">Enter your details to gain access to your account.</h4>
 
-        <form class="formSignUp" method="post">
+        <form class="formSignUp" method="POST" action="">
         
         <label for="email" class="mediumTop WhiteTextBig lato-regular">Email:</label><br>
-        <input type="email" id="email" name="email" placeholder="Email address" required><br>
+        <input type="email" id="email" name="email" placeholder="Email address" required value="<?php echo htmlspecialchars($_POST['email'] ?? '') ?>"><br>
 
-        <label for="pwd" class="smallMarginTop WhiteTextBig lato-regular">Password:</label><br>
-        <input type="password" id="pwd" name="pwd" required>
+        <label for="passwordHash" class="smallMarginTop WhiteTextBig lato-regular">Password:</label><br>
+        <input type="password" id="passwordHash" name="passwordHash" required>
         <br>
 
         <input type="submit" class="primary-Button mediumTop lato-bold" value="Log In" name="Submit">
         </form>
-         <?php
-    
-            if(isset($_POST['Submit'])) {
-                echo'<script> window.location="discover.php"; </script> ';
-                exit; 
-            }
-            ?>
+
         <a href="../Pages/signUp.php"><p class="lato-regular WhiteTextLink TextCenter mediumTop">I don’t have an account</p></a>
 
     </div>

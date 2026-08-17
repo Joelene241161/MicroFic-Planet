@@ -26,13 +26,37 @@
    <?php include "../components/navbarAccount.php";
     ?>
 
+    <?php
+    require_once '../config.php';
+
+    // Check if user is logged in
+    if (!isset($_SESSION['userID'])) {
+        header("Location: logIn.php");
+        exit();
+    }
+
+    // Get user data
+    $stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
+    $stmt->bind_param("i", $_SESSION['userID']);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
+
+    // Handle logout
+    if (isset($_GET['logout'])) {
+        session_destroy();
+        header("Location: login.php");
+        exit();
+    }
+    ?>
+
     <section class="marginTop1 MarginLeft">
 
     <div class="d-flex row-3 mediumTop">
                  <div class="ImageContainer tinyMarginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
+                 <img src="../uploads/<?php echo $user['profileImg'] ?>" 
+             alt="Profile image" class="profileImg">
                  </div>
-                <h2 class="lato-regular WhiteTextBig smallMarginRight">@Username</h2>
+                <h2 class="lato-regular WhiteTextBig smallMarginRight">@<?php echo htmlspecialchars($user['userName']) ?></h2>
                 <p class="LightBlueText lato-regular tinyMarginRight">34 followers</p>
                 <p class="LightBlueText lato-regular">5 Stories</p>
             </div>

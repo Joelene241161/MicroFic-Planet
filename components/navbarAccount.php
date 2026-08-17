@@ -23,6 +23,29 @@
 
 <body class="BackgroundBody">
 
+  <?php
+    require_once '../config.php';
+
+    // Check if user is logged in
+    if (!isset($_SESSION['userID'])) {
+        header("Location: logIn.php");
+        exit();
+    }
+
+    // Get user data
+    $stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
+    $stmt->bind_param("i", $_SESSION['userID']);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
+
+    // Handle logout
+    if (isset($_GET['logout'])) {
+        session_destroy();
+        header("Location: login.php");
+        exit();
+    }
+    ?>
+
     <nav class="navbar navbar-expand-lg NavBackground">
   <div class="container-fluid">
     <a class="navbar-brand MarginLeft" href="../Pages/discover.php"><img src="../Assets/Logo.svg" class="Logo"></a>
@@ -36,15 +59,16 @@
 
       <div class="d-flex smallMarginRight" data-tooltip="Star Tokens are currency, spend them to create a story or gift them to show appreciation. Gain tokens by liking and saving stories.">
         <img src="../Assets/Icons/Sparkles.png" class="iconStyle tinyMarginRight">
-        <h4 class="lato-regular DefaultBlueText">14</h4>
+        <h4 class="lato-regular DefaultBlueText"><?php echo htmlspecialchars($user['tokens']) ?></h4>
       </div>
 
         
         <div class="ImageContainer tinyMarginRight">
           <a href="../Pages/profile.php">
-        <img src="../Assets/profile.jpg" class="profileImg">
+        <img src="../uploads/<?php echo $user['profileImg'] ?>" 
+             alt="Profile" class="profileImg">
         </div>
-        <p class="lato-regular DarkBlueText marginTop">Username</p>
+        <p class="lato-regular DarkBlueText marginTop"><?php echo htmlspecialchars($user['userName']) ?></p>
       </a>
       </div>
 

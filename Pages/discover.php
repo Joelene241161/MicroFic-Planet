@@ -29,6 +29,29 @@
  <section>
     <div class="d-flex flex-row-lg bodyMargin flex-wrap">
 
+    <?php
+    require_once '../config.php';
+
+    // Check if user is logged in
+    if (!isset($_SESSION['userID'])) {
+        header("Location: logIn.php");
+        exit();
+    }
+
+    // Get user data
+    $stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
+    $stmt->bind_param("i", $_SESSION['userID']);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
+
+    // Handle logout
+    if (isset($_GET['logout'])) {
+        session_destroy();
+        header("Location: login.php");
+        exit();
+    }
+    ?>
+
     <!-- Not logged in/guest -->
         <?php //include "components/sidebarGuest.php";?>
 

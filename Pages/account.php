@@ -25,14 +25,37 @@
 
     <?php include "../components/navbarAccount.php";?>
 
+     <?php
+    require_once '../config.php';
+
+    // Check if user is logged in
+    if (!isset($_SESSION['userID'])) {
+        header("Location: logIn.php");
+        exit();
+    }
+
+    // Get user data
+    $stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
+    $stmt->bind_param("i", $_SESSION['userID']);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
+
+    // Handle logout
+    if (isset($_GET['logout'])) {
+        session_destroy();
+        header("Location: login.php");
+        exit();
+    }
+    ?>
+
         <div class="backTransparent">
         <h1 class="lato-bold TextCenter DarkBlueText marginBottomBig">Your account</h1>
 
-        <h5 class="lato-regular TextCenter WhiteTextBig marginTop"><strong>Username:</strong> Sloth456Friend</h5>
+        <h5 class="lato-regular TextCenter WhiteTextBig marginTop"><strong>Username:</strong> <?php echo htmlspecialchars($user['userName']) ?></h5>
 
-        <h5 class="lato-regular TextCenter WhiteTextBig marginTop"><strong>Email:</strong> Sloth456Friend@gmail.com</h5>
+        <h5 class="lato-regular TextCenter WhiteTextBig marginTop"><strong>Email:</strong> <?php echo htmlspecialchars($user['email']) ?></h5>
 
-        <h5 class="lato-regular TextCenter WhiteTextBig marginTop"><strong>Account type:</strong> Writer</h5>
+        <h5 class="lato-regular TextCenter WhiteTextBig marginTop"><strong>Account type:</strong> <?php echo htmlspecialchars($user['role']) ?></h5>
 
         <div class="d-flex col-lg justify-content-center marginTop">
             <button class="d-flex row-7 tertiaryButton marginRight lato-bold ">   
@@ -42,9 +65,11 @@
         </div>
 
         <div class="d-flex marginTop">
-             <button type="button" class="secondary-Button d-flex row-12 buttonHeight lato-regular marginRight">
+        <a href="?logout=1">     
+        <button type="button" class="secondary-Button d-flex row-12 buttonHeight lato-regular marginRight">
                 Log Out
         </button>
+        </a>
         <button type="button" class="btn btn-danger">Delete Account</button>
         </div>
         

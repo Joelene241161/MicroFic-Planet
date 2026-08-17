@@ -23,9 +23,32 @@
 
 <body class="BackgroundBody">
 
+    <?php
+    require_once '../config.php';
+
+    // Check if user is logged in
+    if (!isset($_SESSION['userID'])) {
+        header("Location: logIn.php");
+        exit();
+    }
+
+    // Get user data
+    $stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
+    $stmt->bind_param("i", $_SESSION['userID']);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
+
+    // Handle logout
+    if (isset($_GET['logout'])) {
+        session_destroy();
+        header("Location: login.php");
+        exit();
+    }
+    ?>
+
     <!-- logged in -->
         <div class="col-3 CTACard">
-            <!-- only show if user is a writer -->
+            <!-- only show if user is a writer/admin -->
              <a href="./createStory.php">
             <button type="button" class="primary-Button col-12 marginBottomBig">Create a new story +</button></a>
 
