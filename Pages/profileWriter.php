@@ -193,28 +193,10 @@ $sql = "
             </div>
             <div class="d-flex col-lg ">
 
-            <form method="POST" action="../components/save.php">
-    <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
-
-    <?php
-    // Checks if the story has already been saved by the logged in user
-    $stmt = $conn->prepare("SELECT savedID FROM savedstories WHERE userID = ? AND storyID = ?");
-    $stmt->bind_param("ii", $_SESSION['userID'], $row['StoryID']);
-    $stmt->execute();
-    $saved = $stmt->get_result()->num_rows > 0;
-    ?>
-
-    <input type="submit" class="btn-check" id="save-<?php echo $row['StoryID']; ?>" autocomplete="off">
-    <label 
-        class="d-inline-flex lato-bold paddingBottom <?php echo $saved ? 'outlinedButton' : 'tertiaryButton'; ?>" 
-        for="save-<?php echo $row['StoryID']; ?>">
-        <img src="../Assets/Icons/SaveEmpty.png" class="marginRight IconSize"><p>Save</p>
-    </label>
-
-</form>
-
-            <div>
-                <div class="col">
+            <form method="POST" action="../components/deleteStory.php" onsubmit="return confirm('Are you sure you want to delete this story?');" class="marginRight">
+                <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
             
    <form method="POST" action="../components/edit.php">
         <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
