@@ -129,9 +129,11 @@
                 <div class="ImageContainer marginRight">
                     <img src="../uploads/<?php echo htmlspecialchars($s['profileImg']); ?>" class="profileImg">
                 </div>
-                <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">
-                    <?php echo htmlspecialchars($s['title']); ?>
-                </h5>
+                <a href="./individualStory.php?storyID=<?php echo $s['StoryID']; ?>">
+                    <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">
+                        <?php echo htmlspecialchars($s['title']); ?>
+                    </h5>
+                </a>
                 <h6 class="DarkBlueText lato-regular mediumTop">
                     @<?php echo htmlspecialchars($s['userName']); ?>
                 </h6>
@@ -225,7 +227,9 @@
             echo '<div class="ImageContainer marginRight">';
             echo '<img src="../uploads/' . htmlspecialchars($s['profileImg']) . '" class="profileImg">';
             echo '</div>';
+            echo '<a class="marginRight" href="./individualStory.php?storyID=' . urlencode($s['StoryID']) . '">';
             echo '<h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">' . htmlspecialchars($s['title']) . '</h5>';
+            echo '</a>';
             echo '<a href="./profile.php?userID=' . urlencode($s['userID']) . '">';
             echo '<h6 class="LightBlueText lato-regular mediumTop">@' . htmlspecialchars($s['userName']) . '</h6>';
             echo '</a>';

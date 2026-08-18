@@ -125,7 +125,7 @@ $sql = "
         <?php //include "components/sidebarGuest.php";?>
 
     <!-- logged in -->
-         <?php include "../components/sidebar.php";?>
+         <?php include "../components/sidebarWriter.php";?>
     
         </div>  <!-- left side -->
 
