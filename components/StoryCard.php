@@ -26,26 +26,28 @@
     <?php
     require_once '../config.php';
 
- // selected genre from URL
-$genreFilter = isset($_GET['genre']) ? $_GET['genre'] : '';
+    // selected genre from URL
+    $genreFilter = isset($_GET['genre']) ? $_GET['genre'] : '';
 
-$sql = "
+    $sql = "
     SELECT s.StoryID, s.title, s.content, s.genre, s.created_at,
-       u.userID, u.userName, u.profileImg,
-       COUNT(l.likedID) AS likeCount
+           u.userID, u.userName, u.profileImg,
+           COUNT(l.likedID) AS likeCount
     FROM story s
     JOIN users u ON s.userID = u.userID
     LEFT JOIN likes l ON s.StoryID = l.storyID
-";
+    WHERE s.state = 'approved'
+    ";
 
-// Add filter if genre is selected
-if (!empty($genreFilter)) {
-    $sql .= " WHERE s.genre LIKE '%" . $conn->real_escape_string($genreFilter) . "%'";
-}
+    // Add genre filter if selected
+    if (!empty($genreFilter)) {
+        $sql .= " AND s.genre LIKE '%" . $conn->real_escape_string($genreFilter) . "%'";
+    }
 
-$sql .= " GROUP BY s.StoryID";
+    $sql .= " GROUP BY s.StoryID";
 
-$result = $conn->query($sql);
+
+    $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
@@ -148,6 +150,7 @@ $result = $conn->query($sql);
 }
 ?>
 
+<!-- modal -->
 <div class="modal fade" id="giftModal" tabindex="-1" aria-labelledby="giftLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

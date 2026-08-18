@@ -11,6 +11,7 @@ $sql = "
     FROM story s
     JOIN users u ON s.userID = u.userID
     LEFT JOIN likes l ON s.StoryID = l.storyID
+    WHERE s.state = 'approved'
 ";
 
 // Add filter if genre is selected

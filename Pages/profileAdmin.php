@@ -26,17 +26,72 @@
    <?php include "../components/navbarAccount.php";
     ?>
 
+    <?php
+    require_once '../config.php';
+
+    // Check if user is logged in
+    if (!isset($_SESSION['userID'])) {
+        header("Location: logIn.php");
+        exit();
+    }
+
+    // Get user data
+    $stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
+    $stmt->bind_param("i", $_SESSION['userID']);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
+
+    // Handle logout
+    if (isset($_GET['logout'])) {
+        session_destroy();
+        header("Location: login.php");
+        exit();
+    }
+
+    // Count amount of stories saved
+    $stmtSaved = $conn->prepare("SELECT COUNT(*) AS savedCount FROM savedstories WHERE userID = ?");
+    $stmtSaved->bind_param("i", $_SESSION['userID']);
+    $stmtSaved->execute();
+    $savedData = $stmtSaved->get_result()->fetch_assoc();
+    $savedCount = $savedData['savedCount'];
+
+    // Count how many accounts the user is following
+    $stmtFollowing = $conn->prepare("SELECT COUNT(*) AS followingCount FROM followers WHERE followerID = ?");
+    $stmtFollowing->bind_param("i", $_SESSION['userID']);
+    $stmtFollowing->execute();
+    $followingData = $stmtFollowing->get_result()->fetch_assoc();
+    $followingCount = $followingData['followingCount'];
+
+    // Get all pending stories
+    $sql = "
+        SELECT s.StoryID, s.title, s.content, s.genre, s.created_at,
+            u.userID AS authorID, u.userName, u.profileImg,
+            COUNT(l.likedID) AS likeCount
+        FROM story s
+        JOIN users u ON s.userID = u.userID
+        LEFT JOIN likes l ON s.StoryID = l.storyID
+        WHERE s.state = 'pending'
+        GROUP BY s.StoryID
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    ?>
+
     <section class="marginTop1 MarginLeft">
 
     <div class="d-flex row-3 mediumTop">
                  <div class="ImageContainer tinyMarginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
+                 <img src="../uploads/<?php echo $user['profileImg'] ?>" 
+             alt="Profile image" class="profileImg">
                  </div>
-                <h2 class="lato-regular WhiteTextBig smallMarginRight">@Username</h2>
-                <p class="LightBlueText lato-regular tinyMarginRight">34 followers</p>
-                <p class="LightBlueText lato-regular">5 Stories</p>
+                <h2 class="lato-regular WhiteTextBig smallMarginRight">@<?php echo htmlspecialchars($user['userName']) ?></h2>
+                <p class="LightBlueText lato-regular tinyMarginRight"><?php echo $followingCount; ?> Following</p>
+                <p class="LightBlueText lato-regular"><?php echo $savedCount; ?> Saved stories</p>
+                <h1 class="lato-bold WhiteTextBig MarginLeftBig">Posts pending approval</h1>
             </div>
-
+    
     <a href="./account.php" class="d-flex ItemsRight marginRight">
         <button type="button" class="secondary-Button d-flex row-12 buttonHeight lato-bold">
             <img src="../Assets/Icons/settings.png" class="marginRight IconSize">
@@ -58,19 +113,101 @@
 
 
         <div class="col-8 MarginLeft">
-  
-        <?php include "../components/selectGenre.php";?>
+        <!-- <?php include "../components/selectGenre.php";?> -->
     
         <div class="CardGroup">
-        <?php include "../components/StoryCardAdmin.php";?>
+        
+        <?php if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+            ?>
+            
+    <article class="cardBackground mediumTop">
+        <div class="d-flex row-3">
+                <div class="ImageContainerSmall tinyMarginRight">
+                <img src="../uploads/<?php echo htmlspecialchars($row['profileImg']); ?>" class="profileImg">
+                </div>
+                <p class="lato-regular DarkBlueText"><?php echo htmlspecialchars($row['userName']); ?></p>
+        </div>
 
-        <?php include "../components/StoryCardAdmin.php";?>
+        <h4 class="lato-bold DarkBlueText"><?php echo htmlspecialchars($row['title']); ?></h4>
+
+        <div class="d-flex row-3">
+                <div class="d-flex row-3">
+    <?php 
+    // separating strings in array
+    $genres = explode(',', $row['genre']); 
+
+    foreach ($genres as $genre) {
+        $genre = trim($genre);
+        echo '<button class="genreLabel lato-regular marginRight">'
+             . htmlspecialchars($genre) .
+             '</button>';
+    }
+    ?>
+</div>
+        </div>
+
+        <p class="lato-regular smallMarginTop"><?php echo nl2br(htmlspecialchars($row['content'])); ?></p>
+
+        <div class="d-flex row">
+            <div class="col-9">
+            
+           <form method="POST" action="../components/like.php">
+    <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
+
+    <?php
+    // Checks if the story has already been liked by the logged in user
+    $stmt = $conn->prepare("SELECT likedID FROM likes WHERE userID = ? AND storyID = ?");
+    $stmt->bind_param("ii", $_SESSION['userID'], $row['StoryID']);
+    $stmt->execute();
+    $liked = $stmt->get_result()->num_rows > 0;
+    ?>
+
+    <input type="submit" class="btn-check" id="like-<?php echo $row['StoryID']; ?>" autocomplete="off">
+    <label 
+        class="d-inline-flex lato-bold paddingBottom <?php echo $liked ? 'outlinedButton' : 'tertiaryButton'; ?>" 
+        for="like-<?php echo $row['StoryID']; ?>">
+        <img src="../Assets/Icons/LikeEmpty.png" class="marginRight IconSize"> <?php echo $row['likeCount']; ?>
+    </label>
+</form>
+
+            </div>
+            <div class="d-flex col-lg ">
+
+            <div class="d-flex col-lg ">
+            <div class="d-flex col-lg">
+                <!-- Approve -->
+                <form method="POST" action="../components/approveStory.php" class="d-inline marginRight">
+                    <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
+                    <input type="hidden" name="action" value="approve">
+                    <button type="submit" class="btn btn-success smallMarginRight">Approve</button>
+                </form>
+
+                <!-- Deny -->
+                <form method="POST" action="../components/approveStory.php" class="d-inline">
+                    <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
+                    <input type="hidden" name="action" value="deny">
+                    <button type="submit" class="btn btn-danger">Deny</button>
+                </form>
+            </div>
+
+        </div>
+        </div>
+
+</article>   <!-- end of card -->
+<?php
+    }
+} else {
+    echo '<h2 class="lato-bold WhiteTextBig mediumTop">No more stories left to review.</h2>';
+}
+?>
         <div>
 
         </div>  <!-- right side -->
     </div>  <!-- entire row -->
 
  </section>
+
 
     <?php include "../components/footerAccount.php";?>
    

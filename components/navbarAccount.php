@@ -24,27 +24,44 @@
 <body class="BackgroundBody">
 
   <?php
-    require_once '../config.php';
+require_once '../config.php';
 
-    // Check if user is logged in
-    if (!isset($_SESSION['userID'])) {
-        header("Location: logIn.php");
-        exit();
-    }
+// Check if user is logged in
+if (!isset($_SESSION['userID'])) {
+    header("Location: logIn.php");
+    exit();
+}
 
-    // Get user data
-    $stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
-    $stmt->bind_param("i", $_SESSION['userID']);
-    $stmt->execute();
-    $user = $stmt->get_result()->fetch_assoc();
+// Get user data
+$stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
+$stmt->bind_param("i", $_SESSION['userID']);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc();
 
-    // Handle logout
-    if (isset($_GET['logout'])) {
-        session_destroy();
-        header("Location: login.php");
-        exit();
-    }
-    ?>
+// Handle logout
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: login.php");
+    exit();
+}
+
+// Decide profile page based on role
+$profilePage = '';
+switch ($user['role']) {
+    case 'writer':
+        $profilePage = 'profileWriter.php';
+        break;
+    case 'admin':
+        $profilePage = 'profileAdmin.php';
+        break;
+    case 'reader':
+        $profilePage = 'profileReader.php';
+        break;
+    default:
+        $profilePage = 'profileReader.php';
+}
+?>
+
 
     <nav class="navbar navbar-expand-lg NavBackground">
   <div class="container-fluid">
@@ -64,7 +81,7 @@
 
         
         <div class="ImageContainer tinyMarginRight">
-          <a href="../Pages/profileWriter.php">
+          <a href="../Pages/<?php echo $profilePage; ?>">
         <img src="../uploads/<?php echo $user['profileImg'] ?>" 
              alt="Profile" class="profileImg">
         </div>

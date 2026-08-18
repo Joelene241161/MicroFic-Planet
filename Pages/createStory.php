@@ -29,12 +29,12 @@
         <?php
         require_once '../config.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title   = trim($_POST['title'] ?? '');
     $content = trim($_POST['content'] ?? '');
     $genres  = $_POST['options'] ?? [];
     $genre   = implode(",", $genres);
-    $userID  = $_SESSION['userID']; //user that is already logged in
+    $userID  = $_SESSION['userID'];
 
     $errors = [];
     if (empty($title)) $errors[] = "Title is required";
@@ -42,18 +42,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($genres)) $errors[] = "At least one genre is required";
 
     if (empty($errors)) {
-    $stmt = $conn->prepare("INSERT INTO story (userID, title, content, genre) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("isss", $userID, $title, $content, $genre);
-    if ($stmt->execute()) {
-    echo "<script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var myModal = new bootstrap.Modal(document.getElementById('postModal'));
-                myModal.show();
-            });
-          </script>";
+        // Check user has enough tokens
+        $stmtCheck = $conn->prepare("SELECT tokens FROM users WHERE userID = ?");
+        $stmtCheck->bind_param("i", $userID);
+        $stmtCheck->execute();
+        $userTokens = $stmtCheck->get_result()->fetch_assoc()['tokens'];
+
+        if ($userTokens < 40) {
+            $errors[] = "Not enough tokens to post a story.";
+        } else {
+            // Insert story
+            $stmt = $conn->prepare("INSERT INTO story (userID, title, content, genre) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("isss", $userID, $title, $content, $genre);
+            if ($stmt->execute()) {
+                // Deduct 40 tokens
+                $stmtUpdate = $conn->prepare("UPDATE users SET tokens = tokens - 40 WHERE userID = ?");
+                $stmtUpdate->bind_param("i", $userID);
+                $stmtUpdate->execute();
+
+                // Show modal
+                echo "<script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            var myModal = new bootstrap.Modal(document.getElementById('postModal'));
+                            myModal.show();
+                        });
+                      </script>";
+            }
+        }
+    }
 }
-  }
-}
+
 ?>
 
     <?php if (!empty($errors)): ?>

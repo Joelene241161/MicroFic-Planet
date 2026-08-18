@@ -55,6 +55,14 @@
     $storyData = $stmtStories->get_result()->fetch_assoc();
     $storyCount = $storyData['storyCount'];
 
+     // Count amount of followers that logged in user has
+    $stmtFollowers = $conn->prepare("SELECT COUNT(*) AS followerCount FROM followers WHERE userID = ?");
+    $stmtFollowers->bind_param("i", $_SESSION['userID']);
+    $stmtFollowers->execute();
+    $followerData = $stmtFollowers->get_result()->fetch_assoc();
+    $followerCount = $followerData['followerCount'];
+
+
    // Get selected genre from URL
 $genreFilter = isset($_GET['genre']) ? $_GET['genre'] : '';
 
@@ -97,8 +105,9 @@ $sql = "
              alt="Profile image" class="profileImg">
                  </div>
                 <h2 class="lato-regular WhiteTextBig smallMarginRight">@<?php echo htmlspecialchars($user['userName']) ?></h2>
-                <p class="LightBlueText lato-regular tinyMarginRight">34 followers</p>
+                <p class="LightBlueText lato-regular tinyMarginRight"><?php echo $followerCount; ?> Followers</p>
                 <p class="LightBlueText lato-regular"> <?php echo $storyCount; ?> Stories</p>
+                <h1 class="lato-bold WhiteTextBig MarginLeftBig">Your stories</h1>
             </div>
 
     <a href="./account.php" class="d-flex ItemsRight marginRight">

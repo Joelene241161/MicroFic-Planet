@@ -58,18 +58,19 @@
         <h5 class="lato-regular TextCenter WhiteTextBig marginTop"><strong>Account type:</strong> <?php echo htmlspecialchars($user['role']) ?></h5>
 
         <div class="d-flex col-lg justify-content-center marginTop">
-            <button class="d-flex row-7 tertiaryButton marginRight lato-bold ">   
+            <!-- <button class="d-flex row-7 tertiaryButton marginRight lato-bold ">   
                 <img src="../Assets/Icons/edit.png" class="marginRight IconSize">
                 <p class="mediumTop lato-bold textWidth MarginLeft">Edit</p>
-            </button>
+            </button> -->
         </div>
 
         <div class="d-flex marginTop">
         <a href="?logout=1">     
-        <button type="button" class="secondary-Button d-flex row-12 buttonHeight lato-regular marginRight">
+        <button type="button" class="secondary-Button d-flex row-12 buttonHeight lato-regular marginBottomBig">
                 Log Out
         </button>
         </a>
+        
         <button type="button" class="btn btn-danger">Delete Account</button>
         </div>
         
