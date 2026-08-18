@@ -12,7 +12,7 @@
 <p align="center">
 
   <a href="https://github.com/username/projectname">
-    <img src="../Assets/Logo.svg" alt="Logo" width="140"
+    <img src="Assets/Logo.svg" alt="Logo" width="140"
   </a>
   
   # MicroFic-Planet
@@ -121,7 +121,7 @@ To see a run through of the application, click below:
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[image1]: ../Assets/read%20me/hero.png
+[image1]: Assets/read%20me/hero.png
 [image2]: ./mtgaid/src/assets/read%20me/example.png
 [image3]: ./mtgaid/src/assets/read%20me/Learn.png
 [image4]: ./mtgaid/src/assets/read%20me/compare%20top.png
