@@ -44,6 +44,37 @@
         header("Location: login.php");
         exit();
     }
+
+    // Get followed accounts
+    $stmtFollowed = $conn->prepare("
+        SELECT u.userID, u.userName, u.profileImg
+        FROM followers f
+        JOIN users u ON f.userID = u.userID 
+        WHERE f.followerID = ?
+        ORDER BY f.created_at DESC
+        LIMIT 2
+    ");
+    $stmtFollowed->bind_param("i", $_SESSION['userID']);
+    $stmtFollowed->execute();
+    $resultFollowed = $stmtFollowed->get_result();
+
+    // Get stories saved by the logged-in user
+    $stmtSaved = $conn->prepare("
+    SELECT st.StoryID, st.title, u.userName, u.profileImg
+    FROM savedstories ss
+    JOIN story st ON ss.storyID = st.StoryID
+    JOIN users u ON st.userID = u.userID
+    WHERE ss.userID = ?
+    ORDER BY ss.created_at DESC
+    LIMIT 2
+    ");
+    if (!$stmtSaved) {
+        die("Prepare failed: " . $conn->error);
+    }
+    $stmtSaved->bind_param("i", $_SESSION['userID']);
+    $stmtSaved->execute();
+    $resultSaved = $stmtSaved->get_result();
+
     ?>
 
     <!-- logged in -->
@@ -64,25 +95,18 @@
 
         <div>
 
-            <div class="d-flex col-11 marginTop">
-                 <div class="ImageContainer marginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
-                 </div>
-
-                 <a href="./profile.php">
-                <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
-                </a>
-
-            </div>  <!-- One profile -->
-
-            <div class="d-flex col-11 marginTop">
-                 <div class="ImageContainer marginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
-                 </div>
-                <a href="./profile.php">
-                <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
-                </a>
-            </div>  <!-- One profile -->
+                    <div>
+    <?php while ($f = $resultFollowed->fetch_assoc()): ?>
+        <div class="d-flex col-11 marginTop">
+            <div class="ImageContainer marginRight">
+                <img src="../uploads/<?php echo htmlspecialchars($f['profileImg']); ?>" class="profileImg">
+            </div>
+            <a href="./profile.php?userID=<?php echo $f['userID']; ?>">
+                <h5 class="lato-regular WhiteTextLink smallMarginTop">@<?php echo htmlspecialchars($f['userName']); ?></h5>
+            </a>
+        </div>  <!-- One profile -->
+    <?php endwhile; ?>
+    </div>
 
             <button type="button" class="secondary-Button marginTop" data-bs-toggle="modal" data-bs-target="#followedModal">Show all</button>
 
@@ -99,21 +123,21 @@
 
         <div>
 
-             <div class="d-flex col-11 marginTop">
-                 <div class="ImageContainer marginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
-                 </div>
-                <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">Story Name</h5>
-                <h6 class="DarkBlueText lato-regular mediumTop">Username</h6>
-            </div>  <!-- One profile -->
-
+                 <div>
+        <?php while ($s = $resultSaved->fetch_assoc()): ?>
             <div class="d-flex col-11 marginTop">
-                 <div class="ImageContainer marginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
-                 </div>
-                <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">Story Name</h5>
-                <h6 class="DarkBlueText lato-regular mediumTop">Username</h6>
-            </div>  <!-- One profile -->
+                <div class="ImageContainer marginRight">
+                    <img src="../uploads/<?php echo htmlspecialchars($s['profileImg']); ?>" class="profileImg">
+                </div>
+                <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">
+                    <?php echo htmlspecialchars($s['title']); ?>
+                </h5>
+                <h6 class="DarkBlueText lato-regular mediumTop">
+                    @<?php echo htmlspecialchars($s['userName']); ?>
+                </h6>
+            </div>  <!-- One saved story -->
+        <?php endwhile; ?>
+        </div>
 
             <button type="button" class="secondary-Button marginTop" data-bs-toggle="modal" data-bs-target="#savedModal">Show all</button>
         </div>
@@ -133,20 +157,32 @@
       <div class="modal-body">
         <p class="lato-regular">These are all of the accounts you follow:</p>
 
-         <div class="d-flex col-11 marginTop">
-                 <div class="ImageContainer marginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
-                 </div>
-                <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
-            </div>  <!-- One profile -->
+           <?php
+        $stmtAllFollowed = $conn->prepare("
+            SELECT u.userID, u.userName, u.profileImg
+            FROM followers f
+            JOIN users u ON f.userID = u.userID
+            WHERE f.followerID = ?
+            ORDER BY f.created_at DESC
+        ");
+        if (!$stmtAllFollowed) {
+            die("Prepare failed: " . $conn->error);
+        }
+        $stmtAllFollowed->bind_param("i", $_SESSION['userID']);
+        $stmtAllFollowed->execute();
+        $resultAllFollowed = $stmtAllFollowed->get_result();
 
-            <div class="d-flex col-11 marginTop">
-                 <div class="ImageContainer marginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
-                 </div>
-                <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
-            </div>  <!-- One profile -->
-            
+        while ($f = $resultAllFollowed->fetch_assoc()) {
+            echo '<div class="d-flex col-11 marginTop">';
+            echo '<div class="ImageContainer marginRight">';
+            echo '<img src="../uploads/' . htmlspecialchars($f['profileImg']) . '" class="profileImg">';
+            echo '</div>';
+            echo '<a href="./profile.php?userID=' . urlencode($f['userID']) . '">';
+            echo '<h5 class="lato-regular WhiteTextLink smallMarginTop">@' . htmlspecialchars($f['userName']) . '</h5>';
+            echo '</a>';
+            echo '</div>';
+        }
+        ?>   
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
@@ -168,21 +204,34 @@
       <div class="modal-body">
         <p class="lato-regular">These are all of the stories that you have saved:</p>
 
-         <div class="d-flex col-11 marginTop">
-                 <div class="ImageContainer marginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
-                 </div>
-                <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">Story Name</h5>
-                <h6 class="lato-regular mediumTop">Username</h6>
-            </div>  <!-- One profile -->
+          <?php 
+        $stmtAllSaved = $conn->prepare("
+            SELECT st.StoryID, st.title, u.userID, u.userName, u.profileImg
+            FROM savedstories ss
+            JOIN story st ON ss.storyID = st.StoryID
+            JOIN users u ON st.userID = u.userID
+            WHERE ss.userID = ?
+            ORDER BY ss.created_at DESC
+        ");
+        if (!$stmtAllSaved) {
+            die("Prepare failed: " . $conn->error);
+        }
+        $stmtAllSaved->bind_param("i", $_SESSION['userID']);
+        $stmtAllSaved->execute();
+        $resultAllSaved = $stmtAllSaved->get_result();
 
-            <div class="d-flex col-11 marginTop">
-                 <div class="ImageContainer marginRight">
-                 <img src="../Assets/profile.jpg" class="profileImg">
-                 </div>
-                <h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">Story Name</h5>
-                <h6 class="lato-regular mediumTop">Username</h6>
-            </div>  <!-- One profile -->
+        while ($s = $resultAllSaved->fetch_assoc()) {
+            echo '<div class="d-flex col-11 marginTop">';
+            echo '<div class="ImageContainer marginRight">';
+            echo '<img src="../uploads/' . htmlspecialchars($s['profileImg']) . '" class="profileImg">';
+            echo '</div>';
+            echo '<h5 class="lato-regular WhiteTextLink smallMarginTop marginRight">' . htmlspecialchars($s['title']) . '</h5>';
+            echo '<a href="./profile.php?userID=' . urlencode($s['userID']) . '">';
+            echo '<h6 class="LightBlueText lato-regular mediumTop">@' . htmlspecialchars($s['userName']) . '</h6>';
+            echo '</a>';
+            echo '</div>';
+        }
+        ?>
             
       </div>
       <div class="modal-footer">

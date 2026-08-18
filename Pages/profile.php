@@ -35,48 +35,46 @@
         exit();
     }
 
-    // Get user data
-    $stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
-    $stmt->bind_param("i", $_SESSION['userID']);
-    $stmt->execute();
-    $user = $stmt->get_result()->fetch_assoc();
+    // Which profile to show: clicked user or logged-in user
+    $profileID = isset($_GET['userID']) ? (int)$_GET['userID'] : $_SESSION['userID'];
 
-    // Handle logout
-    if (isset($_GET['logout'])) {
-        session_destroy();
-        header("Location: login.php");
-        exit();
+    // Get profile user data
+    $stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
+    $stmt->bind_param("i", $profileID);
+    $stmt->execute();
+    $profileUser = $stmt->get_result()->fetch_assoc();
+
+    if (!$profileUser) {
+        die("User not found.");
     }
 
-    // Count amount of stories written
+    // Count amount of stories written by this user
     $stmtStories = $conn->prepare("SELECT COUNT(*) AS storyCount FROM story WHERE userID = ?");
-    $stmtStories->bind_param("i", $_SESSION['userID']);
+    $stmtStories->bind_param("i", $profileID);
     $stmtStories->execute();
     $storyData = $stmtStories->get_result()->fetch_assoc();
     $storyCount = $storyData['storyCount'];
 
-     // Count amount of followers that logged in user has
+    // Count amount of followers this user has
     $stmtFollowers = $conn->prepare("SELECT COUNT(*) AS followerCount FROM followers WHERE userID = ?");
-    $stmtFollowers->bind_param("i", $_SESSION['userID']);
+    $stmtFollowers->bind_param("i", $profileID);
     $stmtFollowers->execute();
     $followerData = $stmtFollowers->get_result()->fetch_assoc();
     $followerCount = $followerData['followerCount'];
 
+    // Genre filter
+    $genreFilter = isset($_GET['genre']) ? $_GET['genre'] : '';
 
-   // Get selected genre from URL
-$genreFilter = isset($_GET['genre']) ? $_GET['genre'] : '';
+    $sql = "
+        SELECT s.StoryID, s.title, s.content, s.genre, s.created_at,
+            u.userName, u.profileImg,
+            COUNT(l.likedID) AS likeCount
+        FROM story s
+        JOIN users u ON s.userID = u.userID
+        LEFT JOIN likes l ON s.StoryID = l.storyID
+        WHERE s.userID = ?
+    ";
 
-$sql = "
-    SELECT s.StoryID, s.title, s.content, s.genre, s.created_at,
-           u.userName, u.profileImg,
-           COUNT(l.likedID) AS likeCount
-    FROM story s
-    JOIN users u ON s.userID = u.userID
-    LEFT JOIN likes l ON s.StoryID = l.storyID
-    WHERE s.userID = ?
-";
-
-    // genre filter
     if (!empty($genreFilter)) {
         $sql .= " AND s.genre LIKE ?";
     }
@@ -87,28 +85,47 @@ $sql = "
 
     if (!empty($genreFilter)) {
         $likeGenre = "%" . $genreFilter . "%";
-        $stmt->bind_param("is", $_SESSION['userID'], $likeGenre);
+        $stmt->bind_param("is", $profileID, $likeGenre);
     } else {
-        // if not selected show all by logged in user
-        $stmt->bind_param("i", $_SESSION['userID']);
+        $stmt->bind_param("i", $profileID);
     }
 
     $stmt->execute();
     $result = $stmt->get_result();
-    ?>
+
+    // Check if they are already following
+    $stmtCheckFollow = $conn->prepare("SELECT followID FROM followers WHERE userID = ? AND followerID = ?");
+    $stmtCheckFollow->bind_param("ii", $profileID, $_SESSION['userID']);
+    $stmtCheckFollow->execute();
+    $isFollowing = $stmtCheckFollow->get_result()->num_rows > 0;
+?>
 
     <section class="marginTop1 MarginLeft">
-
     <div class="d-flex row-3 mediumTop">
-                 <div class="ImageContainer tinyMarginRight">
-                 <img src="../uploads/<?php echo $user['profileImg'] ?>" 
-             alt="Profile image" class="profileImg">
-                 </div>
-                <h2 class="lato-regular WhiteTextBig smallMarginRight">@<?php echo htmlspecialchars($user['userName']) ?></h2>
-                <p class="LightBlueText lato-regular tinyMarginRight"><?php echo $followerCount; ?> Followers</p>
-                <p class="LightBlueText lato-regular"> <?php echo $storyCount; ?> Stories</p>
-            </div>
+        <div class="ImageContainer tinyMarginRight">
+        <img src="../uploads/<?php echo htmlspecialchars($profileUser['profileImg']); ?>" 
+            alt="Profile image" class="profileImg">
+        </div>
+        <h2 class="lato-regular WhiteTextBig smallMarginRight">@<?php echo htmlspecialchars($profileUser['userName']); ?></h2>
+        <p class="LightBlueText lato-regular tinyMarginRight"><?php echo $followerCount; ?> Followers</p>
+        <p class="LightBlueText lato-regular"><?php echo $storyCount; ?> Stories</p>
+        
+        <form method="POST" action="../components/follow.php">
+            <input type="hidden" name="userID" value="<?php echo $profileID; ?>">
+            <?php if ($isFollowing): ?>
+                <button type="submit" class="secondary-Button lato-regular MarginLeftBig">
+                    Following <?php echo htmlspecialchars($profileUser['userName']); ?>
+                </button>
+            <?php else: ?>
+                <button type="submit" class="primary-Button lato-regular MarginLeftBig">
+                    Follow <?php echo htmlspecialchars($profileUser['userName']); ?>
+                </button>
+            <?php endif; ?>
+        </form>
+
+    </div>
     </section>
+
 
  <section>
     <div class="d-flex flex-row-lg bodyMargin flex-wrap">
