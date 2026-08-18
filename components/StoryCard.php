@@ -23,39 +23,10 @@
 
 <body class="BackgroundBody">
 
-   <?php include "../components/navbarAccount.php";
-    ?>
-
     <?php
     require_once '../config.php';
 
-    // Check if user is logged in
-    if (!isset($_SESSION['userID'])) {
-        header("Location: logIn.php");
-        exit();
-    }
-
-    // Get user data
-    $stmt = $conn->prepare("SELECT * FROM users WHERE userID = ?");
-    $stmt->bind_param("i", $_SESSION['userID']);
-    $stmt->execute();
-    $user = $stmt->get_result()->fetch_assoc();
-
-    // Handle logout
-    if (isset($_GET['logout'])) {
-        session_destroy();
-        header("Location: login.php");
-        exit();
-    }
-
-    // Count amount of stories written
-    $stmtStories = $conn->prepare("SELECT COUNT(*) AS storyCount FROM story WHERE userID = ?");
-    $stmtStories->bind_param("i", $_SESSION['userID']);
-    $stmtStories->execute();
-    $storyData = $stmtStories->get_result()->fetch_assoc();
-    $storyCount = $storyData['storyCount'];
-
-   // Get selected genre from URL
+ // selected genre from URL
 $genreFilter = isset($_GET['genre']) ? $_GET['genre'] : '';
 
 $sql = "
@@ -65,69 +36,18 @@ $sql = "
     FROM story s
     JOIN users u ON s.userID = u.userID
     LEFT JOIN likes l ON s.StoryID = l.storyID
-    WHERE s.userID = ?
 ";
 
-    // genre filter
-    if (!empty($genreFilter)) {
-        $sql .= " AND s.genre LIKE ?";
-    }
+// Add filter if genre is selected
+if (!empty($genreFilter)) {
+    $sql .= " WHERE s.genre LIKE '%" . $conn->real_escape_string($genreFilter) . "%'";
+}
 
-    $sql .= " GROUP BY s.StoryID";
+$sql .= " GROUP BY s.StoryID";
 
-    $stmt = $conn->prepare($sql);
+$result = $conn->query($sql);
 
-    if (!empty($genreFilter)) {
-        $likeGenre = "%" . $genreFilter . "%";
-        $stmt->bind_param("is", $_SESSION['userID'], $likeGenre);
-    } else {
-        // if not selected show all by logged in user
-        $stmt->bind_param("i", $_SESSION['userID']);
-    }
-
-    $stmt->execute();
-    $result = $stmt->get_result();
-    ?>
-
-    <section class="marginTop1 MarginLeft">
-
-    <div class="d-flex row-3 mediumTop">
-                 <div class="ImageContainer tinyMarginRight">
-                 <img src="../uploads/<?php echo $user['profileImg'] ?>" 
-             alt="Profile image" class="profileImg">
-                 </div>
-                <h2 class="lato-regular WhiteTextBig smallMarginRight">@<?php echo htmlspecialchars($user['userName']) ?></h2>
-                <p class="LightBlueText lato-regular tinyMarginRight">34 followers</p>
-                <p class="LightBlueText lato-regular"> <?php echo $storyCount; ?> Stories</p>
-            </div>
-
-    <a href="./account.php" class="d-flex ItemsRight marginRight">
-        <button type="button" class="secondary-Button d-flex row-12 buttonHeight lato-bold">
-            <img src="../Assets/Icons/settings.png" class="marginRight IconSize">
-                Account
-        </button>
-    </a>
-    </section>
-
- <section>
-    <div class="d-flex flex-row-lg bodyMargin flex-wrap">
-
-    <!-- Not logged in/guest -->
-        <?php //include "components/sidebarGuest.php";?>
-
-    <!-- logged in -->
-         <?php include "../components/sidebar.php";?>
-    
-        </div>  <!-- left side -->
-
-
-        <div class="col-8 MarginLeft">
-  
-        <?php include "../components/selectGenre.php";?>
-    
-        <div class="CardGroup">
-        
-        <?php if ($result->num_rows > 0) {
+    if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
             ?>
             
@@ -161,52 +81,19 @@ $sql = "
 
         <div class="d-flex row">
             <div class="col-9">
-            
-           <form method="POST" action="../components/like.php">
-    <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
-
-    <?php
-    // Checks if the story has already been liked by the logged in user
-    $stmt = $conn->prepare("SELECT likedID FROM likes WHERE userID = ? AND storyID = ?");
-    $stmt->bind_param("ii", $_SESSION['userID'], $row['StoryID']);
-    $stmt->execute();
-    $liked = $stmt->get_result()->num_rows > 0;
-    ?>
-
-    <input type="submit" class="btn-check" id="like-<?php echo $row['StoryID']; ?>" autocomplete="off">
-    <label 
-        class="d-inline-flex lato-bold paddingBottom <?php echo $liked ? 'outlinedButton' : 'tertiaryButton'; ?>" 
-        for="like-<?php echo $row['StoryID']; ?>">
-        <img src="../Assets/Icons/LikeEmpty.png" class="marginRight IconSize"> <?php echo $row['likeCount']; ?>
-    </label>
-</form>
-
+            <button class="d-flex row-2 tertiaryButton">   
+                <img src="../Assets/Icons/LikeEmpty.png" class="marginRight IconSize">
+                <p class="mediumTop lato-bold"><?php echo $row['likeCount']; ?></p>
+            </button>
             </div>
             <div class="d-flex col-lg ">
-
-            <form method="POST" action="../components/save.php">
-    <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
-
-    <?php
-    // Checks if the story has already been saved by the logged in user
-    $stmt = $conn->prepare("SELECT savedID FROM savedstories WHERE userID = ? AND storyID = ?");
-    $stmt->bind_param("ii", $_SESSION['userID'], $row['StoryID']);
-    $stmt->execute();
-    $saved = $stmt->get_result()->num_rows > 0;
-    ?>
-
-    <input type="submit" class="btn-check" id="save-<?php echo $row['StoryID']; ?>" autocomplete="off">
-    <label 
-        class="d-inline-flex lato-bold paddingBottom <?php echo $saved ? 'outlinedButton' : 'tertiaryButton'; ?>" 
-        for="save-<?php echo $row['StoryID']; ?>">
-        <img src="../Assets/Icons/SaveEmpty.png" class="marginRight IconSize">
-    </label>
-
-</form>
-
+            <button class="d-flex row-2 tertiaryButton marginRight lato-bold">   
+                <img src="../Assets/Icons/SaveEmpty.png" class="marginRight IconSize">
+                <p class="mediumTop lato-bold textWidth">Save</p>
+            </button>
             <div>
                 <div class="col">
-            <button class="d-flex row-3 tertiaryButton MarginLeft" data-bs-toggle="modal" data-bs-target="#giftModal">   
+            <button class="d-flex row-2 tertiaryButton" data-bs-toggle="modal" data-bs-target="#giftModal">   
                 <img src="../Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
                 <p class="mediumTop lato-bold textWidth">Gift</p>
             </button>
@@ -220,16 +107,8 @@ $sql = "
     echo '<h1 class="lato-bold WhiteTextBig mediumTop">No results match your search, try a different genre.</h1>';
 }
 ?>
-        <div>
-
-        </div>  <!-- right side -->
-    </div>  <!-- entire row -->
-
- </section>
-
-    <?php include "../components/footerAccount.php";?>
-
-    <!-- Modal -->
+  
+<!-- Modal -->
 <div class="modal fade" id="giftModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -271,9 +150,8 @@ $sql = "
     </div>
   </div>
 </div>
-   
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-    <script src="./js/script.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>

@@ -64,7 +64,7 @@
 
         
         <div class="ImageContainer tinyMarginRight">
-          <a href="../Pages/profile.php">
+          <a href="../Pages/profileWriter.php">
         <img src="../uploads/<?php echo $user['profileImg'] ?>" 
              alt="Profile" class="profileImg">
         </div>
