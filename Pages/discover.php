@@ -50,6 +50,9 @@
         header("Location: login.php");
         exit();
     }
+
+    // genre filter
+    $genreFilter = isset($_GET['genre']) ? $_GET['genre'] : '';
     ?>
 
     <!-- Not logged in/guest -->

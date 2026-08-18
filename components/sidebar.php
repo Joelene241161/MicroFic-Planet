@@ -48,9 +48,13 @@
 
     <!-- logged in -->
         <div class="col-3 CTACard">
-            <!-- only show if user is a writer/admin -->
-             <a href="./createStory.php">
-            <button type="button" class="primary-Button col-12 marginBottomBig">Create a new story +</button></a>
+            <!-- Hide button if not writer -->
+             <?php if ($user['role'] === 'writer'): ?>
+                <a href="./createStory.php">
+                    <button type="button" class="primary-Button col-12 marginBottomBig">Create a new story +</button>
+                </a>
+            <?php endif; ?>
+
 
             <div class="CTATextCard marginTop">
             <div class="d-flex col-11 marginTop">
@@ -64,14 +68,20 @@
                  <div class="ImageContainer marginRight">
                  <img src="../Assets/profile.jpg" class="profileImg">
                  </div>
+
+                 <a href="./profile.php">
                 <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
+                </a>
+
             </div>  <!-- One profile -->
 
             <div class="d-flex col-11 marginTop">
                  <div class="ImageContainer marginRight">
                  <img src="../Assets/profile.jpg" class="profileImg">
                  </div>
+                <a href="./profile.php">
                 <h5 class="lato-regular WhiteTextLink smallMarginTop">Username</h5>
+                </a>
             </div>  <!-- One profile -->
 
             <button type="button" class="secondary-Button marginTop" data-bs-toggle="modal" data-bs-target="#followedModal">Show all</button>
