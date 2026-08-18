@@ -38,6 +38,6 @@ if ($result->num_rows > 0) {
     $stmt->execute();
 }
 
-//redirects so that the new value shows
-header("Location: ../Pages/profile.php");
+//refreshes so that the new value shows
+header("Location: " . $_SERVER['HTTP_REFERER']);
 exit();

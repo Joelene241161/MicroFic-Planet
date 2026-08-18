@@ -31,8 +31,8 @@ $genreFilter = isset($_GET['genre']) ? $_GET['genre'] : '';
 
 $sql = "
     SELECT s.StoryID, s.title, s.content, s.genre, s.created_at,
-           u.userName, u.profileImg,
-           COUNT(l.likedID) AS likeCount
+       u.userID, u.userName, u.profileImg,
+       COUNT(l.likedID) AS likeCount
     FROM story s
     JOIN users u ON s.userID = u.userID
     LEFT JOIN likes l ON s.StoryID = l.storyID
@@ -81,22 +81,62 @@ $result = $conn->query($sql);
 
         <div class="d-flex row">
             <div class="col-9">
-            <button class="d-flex row-2 tertiaryButton">   
-                <img src="../Assets/Icons/LikeEmpty.png" class="marginRight IconSize">
-                <p class="mediumTop lato-bold"><?php echo $row['likeCount']; ?></p>
-            </button>
+            
+        <form method="POST" action="../components/like.php">
+            <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
+
+            <?php
+            // Checks if the story has already been liked by the logged in user
+            $stmt = $conn->prepare("SELECT likedID FROM likes WHERE userID = ? AND storyID = ?");
+            $stmt->bind_param("ii", $_SESSION['userID'], $row['StoryID']);
+            $stmt->execute();
+            $liked = $stmt->get_result()->num_rows > 0;
+            ?>
+
+            <input type="submit" class="btn-check" id="like-<?php echo $row['StoryID']; ?>" autocomplete="off">
+            <label 
+                class="d-inline-flex lato-bold paddingBottom <?php echo $liked ? 'outlinedButton' : 'tertiaryButton'; ?>" 
+                for="like-<?php echo $row['StoryID']; ?>">
+                <img src="../Assets/Icons/LikeEmpty.png" class="marginRight IconSize"> <?php echo $row['likeCount']; ?>
+            </label>
+        </form>
+
             </div>
             <div class="d-flex col-lg ">
-            <button class="d-flex row-2 tertiaryButton marginRight lato-bold">   
-                <img src="../Assets/Icons/SaveEmpty.png" class="marginRight IconSize">
-                <p class="mediumTop lato-bold textWidth">Save</p>
-            </button>
+            
+            <form method="POST" action="../components/save.php">
+                <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
+
+                <?php
+                // Checks if the story has already been saved by the logged in user
+                $stmt = $conn->prepare("SELECT savedID FROM savedstories WHERE userID = ? AND storyID = ?");
+                $stmt->bind_param("ii", $_SESSION['userID'], $row['StoryID']);
+                $stmt->execute();
+                $saved = $stmt->get_result()->num_rows > 0;
+                ?>
+
+                <input type="submit" class="btn-check" id="save-<?php echo $row['StoryID']; ?>" autocomplete="off">
+                <label 
+                    class="d-inline-flex lato-bold paddingBottom <?php echo $saved ? 'outlinedButton' : 'tertiaryButton'; ?>" 
+                    for="save-<?php echo $row['StoryID']; ?>">
+                    <img src="../Assets/Icons/SaveEmpty.png" class="marginRight IconSize"><p>Save</p>
+                </label>
+
+            </form>
+
             <div>
                 <div class="col">
-            <button class="d-flex row-2 tertiaryButton" data-bs-toggle="modal" data-bs-target="#giftModal">   
-                <img src="../Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
-                <p class="mediumTop lato-bold textWidth">Gift</p>
-            </button>
+            
+            <button class="giftBtn d-flex row-2 tertiaryButton"
+        data-bs-toggle="modal"
+        data-bs-target="#giftModal"
+        data-story="<?php echo $row['StoryID']; ?>"
+        data-user="<?php echo $row['userID']; ?>">
+    <img src="../Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
+    <p class="mediumTop lato-bold textWidth">Gift</p>
+</button>
+
+
             </div>
         </div>
 
@@ -107,51 +147,74 @@ $result = $conn->query($sql);
     echo '<h1 class="lato-bold WhiteTextBig mediumTop">No results match your search, try a different genre.</h1>';
 }
 ?>
-  
-<!-- Modal -->
-<div class="modal fade" id="giftModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="giftModal" tabindex="-1" aria-labelledby="giftLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5 lato-bold" id="exampleModalLabel">Gift tokens</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h1 class="modal-title fs-5 lato-bold" id="giftLabel">Gift tokens</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p class="lato-regular">If you love this story you can gift tokens to the writer to show your appreciation</p>
-    <form>
-        <input type="radio" class="btn-check" name="options" id="5" autocomplete="off" checked>
-            <label class="secondary-Button btn smallMarginRight" for="5">
-                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">5
-            </label>
+        <form method="POST" action="../components/gift.php">
+          <input type="hidden" name="storyID" id="giftStoryID">
+        <input type="hidden" name="giftedTo" id="giftUserID">
 
-            <input type="radio" class="btn-check" name="options" id="10" autocomplete="off">
-            <label class="secondary-Button btn smallMarginRight" for="10">
-                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">10
-            </label>
 
-            <input type="radio" class="btn-check" name="options" id="15" autocomplete="off">
-            <label class="secondary-Button btn smallMarginRight" for="15">
-                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">15
-            </label>
+          <input type="radio" class="btn-check" name="amount" id="gift5" value="5" checked>
+          <label class="secondary-Button btn smallMarginRight" for="gift5">
+              <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">5
+          </label>
 
-            <input type="radio" class="btn-check" name="options" id="20" autocomplete="off">
-            <label class="secondary-Button btn" for="20">
-                <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">20
-            </label>
-            <br>
+          <input type="radio" class="btn-check" name="amount" id="gift10" value="10">
+          <label class="secondary-Button btn smallMarginRight" for="gift10">
+              <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">10
+          </label>
 
-        <input type="submit" class="primary-Button mediumTop lato-bold" value="Send gift" name="Submit">
+          <input type="radio" class="btn-check" name="amount" id="gift15" value="15">
+          <label class="secondary-Button btn smallMarginRight" for="gift15">
+              <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">15
+          </label>
+
+          <input type="radio" class="btn-check" name="amount" id="gift20" value="20">
+          <label class="secondary-Button btn" for="gift20">
+              <img src="../Assets/Icons/sparkles.png" class="marginRight IconSize">20
+          </label>
+          <br>
+
+          <input type="submit" class="primary-Button mediumTop lato-bold" value="Send gift">
         </form>
-            
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.giftBtn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      console.log("Clicked gift button for story:", this.dataset.story, "user:", this.dataset.user);
+      document.getElementById('giftStoryID').value = this.dataset.story;
+      document.getElementById('giftUserID').value = this.dataset.user;
+    });
+  });
+
+  const giftForm = document.querySelector('#giftModal form');
+  if (giftForm) {
+    giftForm.addEventListener('submit', function() {
+      console.log("Submitting values:",
+        document.getElementById('giftStoryID').value,
+        document.getElementById('giftUserID').value
+      );
+    });
+  }
+});
+
+    </script>
+  
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-    <script src="./script.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 </html>
