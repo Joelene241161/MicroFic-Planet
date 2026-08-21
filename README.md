@@ -136,7 +136,7 @@ users can log out of their account and delete their account. Before permanently 
 
 Users can follow other users.
 
-![image22][image22]
+![image25][image25]
 
 <!-- CONCEPT PROCESS -->
 <!-- Briefly explain your concept ideation process -->
@@ -195,7 +195,7 @@ The `Conceptual Process` is the set of actions, activities and research that was
 
 To see a run through of the application, click below:
 
-[View Demonstration](no link yet)
+[View Demonstration](https://drive.google.com/file/d/1o4u3PPhrn7XwiUSXaHfMk2-LGTVX6W-v/view?usp=sharing)
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -224,3 +224,4 @@ To see a run through of the application, click below:
 [image22]: screenshots/followedmodal.png
 [image23]: screenshots/individualstory.png
 [image24]: screenshots/savedmodal.png
+[image25]: screenshots/following.png
