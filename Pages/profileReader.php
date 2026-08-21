@@ -101,7 +101,7 @@
 
     <section class="marginTop1 MarginLeft">
 
-    <div class="d-flex row-3 mediumTop">
+    <div class="d-flex row-3 mediumTop flex-wrap">
                  <div class="ImageContainer tinyMarginRight">
                  <img src="../uploads/<?php echo $user['profileImg'] ?>" 
              alt="Profile image" class="profileImg">

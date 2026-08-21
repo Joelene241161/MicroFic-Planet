@@ -23,7 +23,7 @@
 
 <body class="BackgroundBody">
 
-    <footer class="marginTop d-flex">
+    <footer class="marginTop d-flex flex-wrap">
         <a class="navbar-brand MarginLeft col-3" href="index.php"><img src="Assets/Logo.svg" class="Logo"></a>
         <h5 class="DarkBlueTextLink smallMarginTop col-3">Contact customer support</h5>
         <h5 class="DarkBlueTextLink smallMarginTop col-2 ">Privacy notice</h5>

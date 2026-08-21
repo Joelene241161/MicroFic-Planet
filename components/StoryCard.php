@@ -130,13 +130,13 @@
                 <div class="col">
             
             <button class="giftBtn d-flex row-2 tertiaryButton"
-        data-bs-toggle="modal"
-        data-bs-target="#giftModal"
-        data-story="<?php echo $row['StoryID']; ?>"
-        data-user="<?php echo $row['userID']; ?>">
-    <img src="../Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
-    <p class="mediumTop lato-bold textWidth">Gift</p>
-</button>
+            data-bs-toggle="modal"
+            data-bs-target="#giftModal"
+            data-story="<?php echo $row['StoryID']; ?>"
+            data-user="<?php echo $row['userID']; ?>">
+        <img src="../Assets/Icons/GiftEmpty.png" class="marginRight IconSize">
+        <p class="mediumTop lato-bold textWidth">Gift</p>
+          </button>
 
 
             </div>

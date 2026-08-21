@@ -101,7 +101,7 @@
 ?>
 
     <section class="marginTop1 MarginLeft">
-    <div class="d-flex row-3 mediumTop">
+    <div class="d-flex row-3 mediumTop flex-wrap">
         <div class="ImageContainer tinyMarginRight">
         <img src="../uploads/<?php echo htmlspecialchars($profileUser['profileImg']); ?>" 
             alt="Profile image" class="profileImg">
@@ -225,35 +225,7 @@
             <div>
                 <div class="col">
             
-   <form method="POST" action="../components/edit.php">
-        <input type="hidden" name="storyID" value="<?php echo $row['StoryID']; ?>">
-
-        <?php
-        // default value
-        $alreadyEdited = false;
-
-        // Check edit history 
-        $stmtEdit = $conn->prepare("SELECT edited FROM story WHERE StoryID = ?");
-        $stmtEdit->bind_param("i", $row['StoryID']);
-        $stmtEdit->execute();
-        $resultEdit = $stmtEdit->get_result();
-
-        if ($resultEdit && $rowEdited = $resultEdit->fetch_assoc()) {
-            $alreadyEdited = ($rowEdited['edited'] == 1);
-        }
-        ?>
-
-        <?php if (!$alreadyEdited): ?>
-            <input type="submit" class="btn-check" id="edit-<?php echo $row['StoryID']; ?>" autocomplete="off">
-            <label class="d-inline-flex lato-bold paddingBottom tertiaryButton" for="edit-<?php echo $row['StoryID']; ?>">
-                <img src="../Assets/Icons/edit.png" class="marginRight IconSize"><p>Edit</p>
-            </label>
-        <?php else: ?>
-            <label class="d-inline-flex lato-bold paddingBottom outlinedButton">
-                <img src="../Assets/Icons/edit.png" class="marginRight IconSize"><p>Edited</p>
-            </label>
-        <?php endif; ?>
-    </form>
+   
 
             </div>
         </div>
